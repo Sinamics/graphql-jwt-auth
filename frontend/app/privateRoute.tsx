@@ -2,9 +2,7 @@
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-// @ts-ignore
-// import config from 'config';
-import { useMeQuery } from 'client/graphql/generated/dist';
+import { useMeQuery } from 'frontend/graphql/generated/dist';
 
 interface PrivateRouteProps {
   component: React.FC;

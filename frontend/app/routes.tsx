@@ -4,17 +4,17 @@ import React from 'react';
 import { Switch, Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
 
 // Public Views
-import PageNotFound from '../views/pageNotFound';
-import PageLogin from '../views/login';
-import Register from '../views/register';
+import PageNotFound from 'frontend/views/pageNotFound';
+import PageLogin from 'frontend/views/login';
+import Register from 'frontend/views/register';
 
 // Authorized views
-import PrivatePage from '../views/privatePage';
+import PrivatePage from 'frontend/views/privatePage';
 
 // AUTH
 import PrivateRoute from './privateRoute';
 import { LayoutAnonymous, LayoutAuthenticated, LayoutPublic } from './layouts';
-import LandingPage from '../../frontend/views/landingPage';
+import LandingPage from 'frontend/views/landingPage';
 
 const anonymousRoutes = [
   {

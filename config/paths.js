@@ -41,7 +41,7 @@ module.exports = {
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveModule(resolveApp, 'client/setupTests'),
+  testsSetup: resolveModule(resolveApp, 'frontend/setupTests'),
   proxySetup: resolveApp('frontend/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
   publicUrlOrPath,

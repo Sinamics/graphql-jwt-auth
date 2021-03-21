@@ -12,7 +12,6 @@ const mediumPassword = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[
 module.exports = {
   register,
   login,
-  isAdmin,
 };
 
 async function register({ registerData }) {
@@ -64,12 +63,4 @@ async function login({ loginData: { username, password } }, { res }) {
     accessToken: createAccessToken(user),
     user,
   };
-}
-
-async function isAdmin(id) {
-  // eslint-disable-next-line no-return-await
-  const user = await User.findById(id).select('-hash');
-  if (!user || !user.role) throw `User roles not found!`;
-
-  return user.role.includes('admin');
 }

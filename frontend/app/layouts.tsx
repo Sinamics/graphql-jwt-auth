@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
-import { useMeQuery } from '../../frontend/graphql/generated/dist';
+import { useMeQuery } from 'frontend/graphql/generated/dist';
 
 export const LayoutAuthenticated = withRouter((props: any): any => {
   // const { loading, data: { me = {} } = {} }: any = useMeQuery({ fetchPolicy: 'network-only' });

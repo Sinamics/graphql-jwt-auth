@@ -1,10 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-
-// @ts-ignore
-import config from 'config';
-import { useSuperuserQuery } from '../../frontend/graphql/generated/dist';
+import { useSuperuserQuery } from 'frontend/graphql/generated/dist';
 
 interface props {
   component: React.ElementType;
