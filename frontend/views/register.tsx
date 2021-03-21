@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { MeDocument, MeQuery, useLoginMutation, useRegisterMutation } from '../graphql/generated/dist';
+import { useRegisterMutation } from '../graphql/generated/dist';
 
-// @ts-ignore
-import config from 'config';
-import { setAccessToken } from '../utils/accessToken';
-
-interface RegisterProps {
-  history: any;
+interface stateProps {
+  username: string;
+  password: string;
 }
-
-const SignUp: React.FC<RouteComponentProps> = ({ history }: RegisterProps) => {
-  const [user, setUser] = useState<any>({
+const SignUp: React.FC<RouteComponentProps> = () => {
+  const [user, setUser] = useState<stateProps>({
     username: '',
     password: '',
   });
@@ -30,8 +26,7 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }: RegisterProps) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-
-    register({ variables: { registerData: { ...user } } }).catch((err) => console.log(err));
+    register({ variables: { registerData: { ...user } } }).catch((err) => console.error(err));
   };
   if (registerLoading) return <div>Loading...</div>;
   return (

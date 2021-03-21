@@ -11,5 +11,5 @@ REFRESH_TOKEN_SECRET=anotherrandomkey
 REFRESH_TOKEN_LIFE="7 days"
 ACCESS_TOKEN_LIFE="10s"
 PROD_MONGO_CONNECTION=""
-DEV_MONGO_CONNECTION="mongodb://localhost/mongographjwt"
+DEV_MONGO_CONNECTION="mongodb://localhost/graphqljwtauth"
 ```

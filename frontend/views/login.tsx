@@ -6,17 +6,18 @@ import { useLoginMutation } from '../graphql/generated/dist';
 
 interface LoginProps {
   history: any;
-  match: any;
+  // match: any;
 }
 
-const LoginPage: React.FC<RouteComponentProps> = ({ history, match }: LoginProps) => {
-  const [user, setUser] = useState({ username: '', password: '' });
+interface stateProps {
+  username: string;
+  password: string;
+}
 
-  const [submitted, setSubmitted] = useState(false);
-  // const [login] = useMutation(LOGIN);
+const LoginPage: React.FC<RouteComponentProps> = ({ history }: LoginProps) => {
+  const [user, setUser] = useState<stateProps>({ username: '', password: '' });
+
   const [login, { error: loginError, loading: loginLoading }] = useLoginMutation({ errorPolicy: 'all' });
-
-  // if (data && data.login) setAccessToken(data.login.accessToken);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -26,23 +27,8 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history, match }: LoginProps
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    setSubmitted(true);
-    // if (user.username && user.password) {
     await login({
       variables: { loginData: { ...user } },
-      // Fetch user and cache data
-      // update: (store, { data }) => {
-      //   if (!data || !data.login) {
-      //     return null;
-      //   }
-
-      //   store.writeQuery<MeQuery>({
-      //     query: MeDocument,
-      //     data: {
-      //       me: data.login.user,
-      //     },
-      //   });
-      // },
     })
       .then(({ errors, data }) => {
         if (errors) return;
@@ -53,10 +39,10 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history, match }: LoginProps
           });
         }
       })
-      .catch((err) => console.log(err));
-    // }
+      .catch((err) => console.error(err));
   };
 
+  if (loginLoading) return <div>Loading...</div>;
   return (
     <div>
       <h3 className='text-center text-white pt-5'>Login form</h3>
