@@ -1,0 +1,8 @@
+query superuser {
+  superuser {
+    _id
+    username
+    loggedIn
+    role
+  }
+}

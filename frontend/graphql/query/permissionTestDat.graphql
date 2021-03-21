@@ -1,0 +1,11 @@
+query userRoleData {
+  userRoleData {
+    message
+  }
+}
+
+query superUserRoleData {
+  superUserRoleData {
+    message
+  }
+}

@@ -1,0 +1,9 @@
+query me {
+  me {
+    _id
+    username
+    role
+    loggedIn
+    lastlogin
+  }
+}

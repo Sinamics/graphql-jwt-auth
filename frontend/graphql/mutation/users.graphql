@@ -1,0 +1,5 @@
+# mutation updateUser($_id: ID!, $firstname: String, $lastname: String, $email: String, $role: String) {
+#   updateUser(_id: $_id, firstname: $firstname, lastname: $lastname, email: $email, role: $role) {
+#     username
+#   }
+# }

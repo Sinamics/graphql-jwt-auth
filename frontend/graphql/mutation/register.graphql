@@ -1,0 +1,3 @@
+mutation register($registerData: userInput!) {
+  register(registerData: $registerData)
+}
