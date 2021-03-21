@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { setAccessToken } from '../utils/accessToken';
 import { useLoginMutation } from '../graphql/generated/dist';
-
-interface LoginProps {
-  history: any;
-  // match: any;
-}
 
 interface stateProps {
   username: string;
   password: string;
 }
 
-const LoginPage: React.FC<RouteComponentProps> = ({ history }: LoginProps) => {
+const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
   const [user, setUser] = useState<stateProps>({ username: '', password: '' });
 
   const [login, { error: loginError, loading: loginLoading }] = useLoginMutation({ errorPolicy: 'all' });
@@ -57,18 +51,18 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }: LoginProps) => {
                   Username:
                 </label>
                 <br />
-                <input onChange={handleChange} type='text' name='username' className='form-control' />
+                <input tabIndex={1} onChange={handleChange} type='text' name='username' className='form-control' />
               </div>
               <div className='form-group'>
                 <label htmlFor='password' className='text-info'>
                   Password:
                 </label>
                 <br />
-                <input onChange={handleChange} type='password' name='password' className='form-control' />
+                <input tabIndex={2} onChange={handleChange} type='password' name='password' className='form-control' />
               </div>
               <div className='form-group'>
                 <br />
-                <button onClick={handleSubmit} className='btn btn-info btn-md'>
+                <button tabIndex={3} onClick={handleSubmit} className='btn btn-info btn-md'>
                   Login
                 </button>
               </div>

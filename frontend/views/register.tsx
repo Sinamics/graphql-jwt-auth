@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { useRegisterMutation } from '../graphql/generated/dist';
 
+interface Props {
+  history: any;
+}
 interface stateProps {
   username: string;
   password: string;
 }
-const SignUp: React.FC<RouteComponentProps> = () => {
+const SignUp: React.FC<RouteComponentProps> = ({ history }: Props) => {
   const [user, setUser] = useState<stateProps>({
     username: '',
     password: '',
@@ -26,7 +29,9 @@ const SignUp: React.FC<RouteComponentProps> = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    register({ variables: { registerData: { ...user } } }).catch((err) => console.error(err));
+    register({ variables: { registerData: { ...user } } })
+      .then(() => history.push('login'))
+      .catch((err) => console.error(err));
   };
   if (registerLoading) return <div>Loading...</div>;
   return (
@@ -44,18 +49,18 @@ const SignUp: React.FC<RouteComponentProps> = () => {
                     Username:
                   </label>
                   <br />
-                  <input onChange={handleChange} type='text' name='username' className='form-control' />
+                  <input tabIndex={1} onChange={handleChange} type='text' name='username' className='form-control' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='password' className='text-info'>
                     Password:
                   </label>
                   <br />
-                  <input onChange={handleChange} type='password' name='password' className='form-control' />
+                  <input tabIndex={2} onChange={handleChange} type='password' name='password' className='form-control' />
                 </div>
                 <div className='form-group'>
                   <br />
-                  <button onClick={handleSubmit} className='btn btn-info btn-md'>
+                  <button tabIndex={3} onClick={handleSubmit} className='btn btn-info btn-md'>
                     Register
                   </button>
                 </div>
