@@ -5,7 +5,6 @@ const authTypes = gql`
   enum Role {
     superuser
     user
-    organizer
   }
   # Input data
   input userInput {
