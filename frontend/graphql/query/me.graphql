@@ -2,6 +2,7 @@ query me {
   me {
     data {
       username
+      role
     }
   }
 }

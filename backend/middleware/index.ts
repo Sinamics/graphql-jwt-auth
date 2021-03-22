@@ -1,9 +1,9 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, SchemaDirectiveVisitor } from 'apollo-server-express';
 import { AuthDirective } from '../graphql/authDirective';
 import { Request, Response, Express } from 'express';
 import { authResolvers } from '../graphql/resolvers';
 // import { GraphQLDateTime } from 'graphql-iso-date';
-import { buildSchema } from 'type-graphql';
+import { buildSchemaSync } from 'type-graphql';
 
 class MiddleWare {
   app: any;
@@ -13,11 +13,16 @@ class MiddleWare {
     this.http = http;
   }
   async load() {
+    // build the schema as always
+    const schema = buildSchemaSync({
+      resolvers: [authResolvers],
+    });
+    // register the used directives implementations
+    SchemaDirectiveVisitor.visitSchemaDirectives(schema, {
+      hasRole: AuthDirective,
+    });
     const server = new ApolloServer({
-      schema: await buildSchema({
-        resolvers: [authResolvers],
-        validate: false,
-      }),
+      schema,
       context: ({ req, res }: { req: Request; res: Response }) => ({ req, res }),
       schemaDirectives: {
         hasRole: AuthDirective,

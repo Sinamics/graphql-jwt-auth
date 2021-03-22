@@ -1,10 +1,10 @@
 // import { register, login } from '../auth.service';
 // import isAuthenticated from '../../middleware/authorization/user.is.authenticated';
 import { ApolloError, AuthenticationError } from 'apollo-server-express';
-import { Resolver, Mutation, Query, Ctx, Arg } from 'type-graphql';
+import { Resolver, Mutation, Query, Ctx, Arg, Directive } from 'type-graphql';
 import { User } from '../../entity/Users';
 import { UserInput } from '../../graphql-input-types/auth-input';
-import { PermissionTestResponse, UserResponse } from '../../graphql-response-types/auth-response';
+import { PermissionTestSuperuserResponse, PermissionTestUserResponse, UserResponse } from '../../graphql-response-types/auth-response';
 import isAuthenticated from '../../middleware/authorization/user.is.authenticated';
 import bcrypt from 'bcryptjs';
 import { createAccessToken, createRefreshToken, sendRefreshToken } from '../../jwt/validate.token';
@@ -28,12 +28,14 @@ export class authResolvers {
     return User.findOne(1);
   }
 
-  @Query(() => PermissionTestResponse, { nullable: true })
+  @Directive('@hasRole(roles: [user])')
+  @Query(() => PermissionTestUserResponse, { nullable: true })
   async userRoleData() {
     return { message: 'Hey from backend' };
   }
 
-  @Query(() => PermissionTestResponse, { nullable: true })
+  @Directive('@hasRole(roles: [superuser])')
+  @Query(() => PermissionTestSuperuserResponse, { nullable: true })
   async superUserRoleData() {
     return { message: 'Hey from backend' };
   }
@@ -59,9 +61,6 @@ export class authResolvers {
     } catch (error) {
       throw new ApolloError(error);
     }
-    // await User.create().save();
-    // const data = await Endpoint.find();
-    // return { data };
   }
 
   @Mutation(() => UserResponse)

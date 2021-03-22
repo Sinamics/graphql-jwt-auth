@@ -1,6 +1,3 @@
-// accessToken: String
-// user: Users
-// error: Error
 import { ObjectType, Field } from 'type-graphql';
 import { FieldError } from './field-error';
 import { User } from '../entity/Users';
@@ -18,7 +15,16 @@ export class UserResponse {
 }
 
 @ObjectType()
-export class PermissionTestResponse {
+export class PermissionTestUserResponse {
+  @Field(() => String, { nullable: true })
+  message: String;
+
+  @Field(() => [FieldError], { nullable: true })
+  errors?: FieldError[];
+}
+
+@ObjectType()
+export class PermissionTestSuperuserResponse {
   @Field(() => String, { nullable: true })
   message: String;
 

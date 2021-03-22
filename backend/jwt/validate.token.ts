@@ -27,7 +27,6 @@ async function validateTokensMiddleware(req: Request, res: Response) {
   // token is valid and
   // we can send back an access token
   const user: any = await User.findOne(payload.id);
-  console.log(user);
 
   if (!user) {
     return res.status(400).send({ loggedIn: false, accessToken: '' });

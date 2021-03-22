@@ -9,6 +9,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
 
 export type Query = {
@@ -30,12 +32,13 @@ export type User = {
   __typename?: 'User';
   id: Scalars['ID'];
   username: Scalars['String'];
-  password: Scalars['String'];
+  hash: Scalars['String'];
   tokenVersion: Scalars['String'];
   createdDate: Scalars['String'];
-  lastlogin: Scalars['String'];
-  role: Scalars['String'];
+  lastlogin: Scalars['DateTime'];
+  role: Array<Scalars['String']>;
 };
+
 
 export type FieldError = {
   __typename?: 'FieldError';
@@ -112,7 +115,7 @@ export type MeQuery = (
     { __typename?: 'UserResponse' }
     & { data?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'username'>
+      & Pick<User, 'username' | 'role'>
     )> }
   ) }
 );
@@ -230,6 +233,7 @@ export const MeDocument = gql`
   me {
     data {
       username
+      role
     }
   }
 }
