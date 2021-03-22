@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import AppConfig from './config/app.config';
 import Routes from './routes';
 import MiddleWare from './middleware/index';
+import { createConnection, getConnectionOptions } from 'typeorm';
 
 class Server {
   express: any;
@@ -31,6 +32,12 @@ class Server {
     this.appConfig();
     this.includeRoutes();
     this.middleware();
+
+    (async () => {
+      // get options from ormconfig.js
+      const dbOptions = await getConnectionOptions(process.env.NODE_ENV === 'production' ? 'production' : 'development');
+      await createConnection({ ...dbOptions, name: 'default' });
+    })();
 
     // Start your app.
     this.http.listen(this.port, () => {

@@ -1,13 +1,13 @@
 import { Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { User } from '../../db/connect';
 import { AuthenticationError } from 'apollo-server-express';
+import { User } from '../../entity/Users';
 
 interface TokenPayload {
-  userId: string;
+  id: string;
 }
 
-const isAuthenticated = async ({ req }: Response, role?: string) => {
+const isAuthenticated = async ({ req }: any, role?: string) => {
   const { authorization }: any = req?.headers;
   if (!authorization) {
     throw new AuthenticationError('No authorization token found in header!');
@@ -18,7 +18,7 @@ const isAuthenticated = async ({ req }: Response, role?: string) => {
     const payload = verify(token, process.env.ACCESS_TOKEN_SECRET) as TokenPayload;
     // eslint-disable-next-line no-param-reassign
     if (!payload) throw new AuthenticationError('Token not found!');
-    const user = (await User.findById(payload?.userId)) as any;
+    const user = (await User.findOne(payload?.id)) as any;
 
     if (role && !user.role.includes(role)) {
       throw new AuthenticationError('you do not have correct role to access this page!');

@@ -1,8 +1,7 @@
 query me {
   me {
-    _id
-    username
-    role
-    lastlogin
+    data {
+      username
+    }
   }
 }

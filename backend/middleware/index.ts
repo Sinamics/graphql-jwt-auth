@@ -1,8 +1,9 @@
-import { typeDefs } from '../graphql/rootDef';
-import { resolvers } from '../graphql/rootResolvers';
 import { ApolloServer } from 'apollo-server-express';
 import { AuthDirective } from '../graphql/authDirective';
 import { Request, Response, Express } from 'express';
+import { authResolvers } from '../graphql/resolvers';
+// import { GraphQLDateTime } from 'graphql-iso-date';
+import { buildSchema } from 'type-graphql';
 
 class MiddleWare {
   app: any;
@@ -11,10 +12,12 @@ class MiddleWare {
     this.app = app;
     this.http = http;
   }
-  load() {
+  async load() {
     const server = new ApolloServer({
-      typeDefs,
-      resolvers,
+      schema: await buildSchema({
+        resolvers: [authResolvers],
+        validate: false,
+      }),
       context: ({ req, res }: { req: Request; res: Response }) => ({ req, res }),
       schemaDirectives: {
         hasRole: AuthDirective,

@@ -1,7 +1,9 @@
 query superuser {
   superuser {
-    _id
-    username
-    role
+    data {
+      id
+      username
+      role
+    }
   }
 }

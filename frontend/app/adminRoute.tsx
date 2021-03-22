@@ -19,7 +19,7 @@ const AdminRoute: React.FC<{ component: React.FC<props>; path: string; exact: bo
   if (!data) return <Redirect to={{ pathname: '/dashboard' }} />;
   if (error) return <div>`${error}`</div>;
 
-  const admin = !!data?.superuser?.role?.includes(config.superUser);
+  const admin = !!data?.superuser?.data?.role.includes(config.superUser);
 
   return admin ? <Route path={props.path} exact={props.exact} component={props.component} /> : <Redirect to='/dashboard' />;
 };

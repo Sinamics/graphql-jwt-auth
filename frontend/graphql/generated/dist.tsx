@@ -9,41 +9,50 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  DateTime: any;
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
 };
 
-export enum CacheControlScope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE'
-}
+export type Query = {
+  __typename?: 'Query';
+  me: UserResponse;
+  superuser?: Maybe<UserResponse>;
+  userRoleData?: Maybe<PermissionTestResponse>;
+  superUserRoleData?: Maybe<PermissionTestResponse>;
+};
 
+export type UserResponse = {
+  __typename?: 'UserResponse';
+  accessToken?: Maybe<Scalars['String']>;
+  data?: Maybe<User>;
+  errors?: Maybe<Array<FieldError>>;
+};
 
-export type Error = {
-  __typename?: 'Error';
-  userId?: Maybe<Scalars['ID']>;
+export type User = {
+  __typename?: 'User';
+  id: Scalars['ID'];
+  username: Scalars['String'];
+  password: Scalars['String'];
+  tokenVersion: Scalars['String'];
+  createdDate: Scalars['String'];
+  lastlogin: Scalars['String'];
+  role: Scalars['String'];
+};
+
+export type FieldError = {
+  __typename?: 'FieldError';
+  path?: Maybe<Scalars['String']>;
   message?: Maybe<Scalars['String']>;
 };
 
-export type LoginResponse = {
-  __typename?: 'LoginResponse';
-  accessToken?: Maybe<Scalars['String']>;
-  user?: Maybe<Users>;
-  error?: Maybe<Error>;
+export type PermissionTestResponse = {
+  __typename?: 'PermissionTestResponse';
+  message?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<FieldError>>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  _empty?: Maybe<Scalars['String']>;
-  register?: Maybe<Scalars['Boolean']>;
-  login?: Maybe<LoginResponse>;
-};
-
-
-export type MutationRegisterArgs = {
-  registerData: UserInput;
+  login: UserResponse;
+  register: UserResponse;
 };
 
 
@@ -51,49 +60,14 @@ export type MutationLoginArgs = {
   loginData: UserInput;
 };
 
-export type PermissionTestData = {
-  __typename?: 'permissionTestData';
-  message: Scalars['String'];
+
+export type MutationRegisterArgs = {
+  registerData: UserInput;
 };
-
-export type Query = {
-  __typename?: 'Query';
-  _empty?: Maybe<Scalars['String']>;
-  me?: Maybe<Users>;
-  superuser?: Maybe<Users>;
-  userRoleData: PermissionTestData;
-  superUserRoleData: PermissionTestData;
-};
-
-export type Register = {
-  __typename?: 'Register';
-  username: Scalars['String'];
-  password: Scalars['String'];
-};
-
-export enum Role {
-  Superuser = 'superuser',
-  User = 'user'
-}
-
-export type Subscription = {
-  __typename?: 'Subscription';
-  _empty?: Maybe<Scalars['String']>;
-};
-
 
 export type UserInput = {
   username: Scalars['String'];
   password: Scalars['String'];
-};
-
-export type Users = {
-  __typename?: 'Users';
-  _id: Scalars['ID'];
-  username: Scalars['String'];
-  lastlogin?: Maybe<Scalars['DateTime']>;
-  loggedIn?: Maybe<Scalars['Boolean']>;
-  role: Array<Maybe<Scalars['String']>>;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -103,17 +77,14 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = (
   { __typename?: 'Mutation' }
-  & { login?: Maybe<(
-    { __typename?: 'LoginResponse' }
-    & Pick<LoginResponse, 'accessToken'>
-    & { error?: Maybe<(
-      { __typename?: 'Error' }
-      & Pick<Error, 'userId' | 'message'>
-    )>, user?: Maybe<(
-      { __typename?: 'Users' }
-      & Pick<Users, '_id' | 'username' | 'role' | 'loggedIn'>
+  & { login: (
+    { __typename?: 'UserResponse' }
+    & Pick<UserResponse, 'accessToken'>
+    & { data?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'username' | 'role'>
     )> }
-  )> }
+  ) }
 );
 
 export type RegisterMutationVariables = Exact<{
@@ -123,7 +94,13 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'register'>
+  & { register: (
+    { __typename?: 'UserResponse' }
+    & { data?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'username'>
+    )> }
+  ) }
 );
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -131,10 +108,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = (
   { __typename?: 'Query' }
-  & { me?: Maybe<(
-    { __typename?: 'Users' }
-    & Pick<Users, '_id' | 'username' | 'role' | 'lastlogin'>
-  )> }
+  & { me: (
+    { __typename?: 'UserResponse' }
+    & { data?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'username'>
+    )> }
+  ) }
 );
 
 export type UserRoleDataQueryVariables = Exact<{ [key: string]: never; }>;
@@ -142,10 +122,10 @@ export type UserRoleDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type UserRoleDataQuery = (
   { __typename?: 'Query' }
-  & { userRoleData: (
-    { __typename?: 'permissionTestData' }
-    & Pick<PermissionTestData, 'message'>
-  ) }
+  & { userRoleData?: Maybe<(
+    { __typename?: 'PermissionTestResponse' }
+    & Pick<PermissionTestResponse, 'message'>
+  )> }
 );
 
 export type SuperUserRoleDataQueryVariables = Exact<{ [key: string]: never; }>;
@@ -153,10 +133,10 @@ export type SuperUserRoleDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type SuperUserRoleDataQuery = (
   { __typename?: 'Query' }
-  & { superUserRoleData: (
-    { __typename?: 'permissionTestData' }
-    & Pick<PermissionTestData, 'message'>
-  ) }
+  & { superUserRoleData?: Maybe<(
+    { __typename?: 'PermissionTestResponse' }
+    & Pick<PermissionTestResponse, 'message'>
+  )> }
 );
 
 export type SuperuserQueryVariables = Exact<{ [key: string]: never; }>;
@@ -165,25 +145,23 @@ export type SuperuserQueryVariables = Exact<{ [key: string]: never; }>;
 export type SuperuserQuery = (
   { __typename?: 'Query' }
   & { superuser?: Maybe<(
-    { __typename?: 'Users' }
-    & Pick<Users, '_id' | 'username' | 'role'>
+    { __typename?: 'UserResponse' }
+    & { data?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'username' | 'role'>
+    )> }
   )> }
 );
 
 
 export const LoginDocument = gql`
-    mutation login($loginData: userInput!) {
+    mutation login($loginData: UserInput!) {
   login(loginData: $loginData) {
     accessToken
-    error {
-      userId
-      message
-    }
-    user {
-      _id
+    data {
+      id
       username
       role
-      loggedIn
     }
   }
 }
@@ -214,8 +192,12 @@ export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const RegisterDocument = gql`
-    mutation register($registerData: userInput!) {
-  register(registerData: $registerData)
+    mutation register($registerData: UserInput!) {
+  register(registerData: $registerData) {
+    data {
+      username
+    }
+  }
 }
     `;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
@@ -246,10 +228,9 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutatio
 export const MeDocument = gql`
     query me {
   me {
-    _id
-    username
-    role
-    lastlogin
+    data {
+      username
+    }
   }
 }
     `;
@@ -345,9 +326,11 @@ export type SuperUserRoleDataQueryResult = Apollo.QueryResult<SuperUserRoleDataQ
 export const SuperuserDocument = gql`
     query superuser {
   superuser {
-    _id
-    username
-    role
+    data {
+      id
+      username
+      role
+    }
   }
 }
     `;

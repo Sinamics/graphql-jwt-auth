@@ -33,7 +33,7 @@ export const authTypes = gql`
   }
 
   type Error {
-    userId: ID
+    id: ID
     message: String
   }
 

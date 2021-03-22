@@ -33,7 +33,7 @@ const PrivatePage = ({ history }: props): React.ReactNode => {
       </div>
       <div className='d-flex justify-content-between'>
         <div>
-          <h3>Hey {me?.username}</h3>
+          <h3>Hey {me?.data?.username}</h3>
           <pre>{JSON.stringify(me, null, 2)}</pre>
         </div>
         <div>

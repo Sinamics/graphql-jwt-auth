@@ -1,15 +1,10 @@
-mutation login($loginData: userInput!) {
+mutation login($loginData: UserInput!) {
   login(loginData: $loginData) {
     accessToken
-    error {
-      userId
-      message
-    }
-    user {
-      _id
+    data {
+      id
       username
       role
-      loggedIn
     }
   }
 }

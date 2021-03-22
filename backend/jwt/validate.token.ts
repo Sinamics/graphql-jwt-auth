@@ -1,8 +1,8 @@
 import { verify } from 'jsonwebtoken';
 import { createRefreshToken, createAccessToken } from './create.tokens';
 import sendRefreshToken from './send.refresh.token';
-import { User } from '../db/connect';
 import { Request, Response } from 'express';
+import { User } from '../entity/Users';
 
 /* 
  This functions is called from the /routes directive when /refresh_token is sent to server. 
@@ -24,10 +24,10 @@ async function validateTokensMiddleware(req: Request, res: Response) {
   } catch (err) {
     return res.status(400).send({ loggedIn: false, accessToken: '', message: 'token does not match!' });
   }
-
   // token is valid and
   // we can send back an access token
-  const user: any = await User.findOne({ _id: payload.userId });
+  const user: any = await User.findOne(payload.id);
+  console.log(user);
 
   if (!user) {
     return res.status(400).send({ loggedIn: false, accessToken: '' });
@@ -38,12 +38,11 @@ async function validateTokensMiddleware(req: Request, res: Response) {
   }
 
   // Update database with the last seen time
-  await User.findOneAndUpdate({ _id: payload.userId }, { $set: { lastlogin } });
+  await User.update({ id: payload.id }, { lastlogin });
 
   sendRefreshToken(res, createRefreshToken(user));
 
-  delete user._doc.hash;
-
+  delete user.hash;
   return res.send({
     loggedIn: true,
     accessToken: createAccessToken(user),

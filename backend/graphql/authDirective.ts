@@ -19,7 +19,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
         const token = authorization.split(' ')[1];
         const payload: any = verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-        const user: any = await User.findById(payload.userId);
+        const user: any = await User.findById(payload.id);
         const userRoles = user.role || [];
         const isUnauthorized = !requiredRole.some((r: string) => userRoles.includes(r));
 
