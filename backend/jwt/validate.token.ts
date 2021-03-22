@@ -2,7 +2,7 @@ import { verify } from 'jsonwebtoken';
 import { createRefreshToken, createAccessToken } from './create.tokens';
 import sendRefreshToken from './send.refresh.token';
 import { Request, Response } from 'express';
-import { User } from '../entity/Users';
+import { User } from '../graphql/entity/Users';
 
 /* 
  This functions is called from the /routes directive when /refresh_token is sent to server. 

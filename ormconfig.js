@@ -5,13 +5,13 @@ module.exports = [
     database: 'graphjwtauth',
     synchronize: true,
     logging: true,
-    entities: ['backend/entity/**/*.ts'],
-    migrations: ['backend/migration/**/*.js'],
-    subscribers: ['backend/subscriber/**/*.ts'],
+    entities: ['backend/graphql/entity/**/*.ts'],
+    migrations: ['backend/graphql/migration/**/*.js'],
+    subscribers: ['backend/graphql/subscriber/**/*.ts'],
     cli: {
-      entitiesDir: 'backend/entity',
-      migrationsDir: 'backend/migration',
-      subscribersDir: 'backend/subscriber',
+      entitiesDir: 'backend/graphql/entity',
+      migrationsDir: 'backend/graphql/migration',
+      subscribersDir: 'backend/graphql/subscriber',
     },
   },
   {
@@ -20,8 +20,8 @@ module.exports = [
     database: 'graphjwtauth',
     synchronize: true, // switch this to false once you have the initial tables created and use migrations instead
     logging: false,
-    entities: ['dist/entity/*.js'],
-    migrations: ['dist/migration/*.js'],
-    subscribers: ['dist/subscriber/*.js'],
+    entities: ['dist/graphql/entity/*.js'],
+    migrations: ['dist/graphql/migration/*.js'],
+    subscribers: ['dist/graphql/subscriber/*.js'],
   },
 ];

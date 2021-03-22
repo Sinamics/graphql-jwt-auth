@@ -27,8 +27,8 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }: Props) => {
     });
   };
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
     register({ variables: { registerData: { ...user } } })
       .then(({ errors }) => {
         if (errors?.length) return;
@@ -44,7 +44,7 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }: Props) => {
         <div className='row justify-content-center align-items-center'>
           <div className='col-md-6'>
             <div className='col-md-12'>
-              <form className='form'>
+              <form className='form' onSubmit={handleSubmit}>
                 <h3 className='text-center text-info'>Register</h3>
                 <div className='text-danger d-flex justify-content-center'>{registerError?.message}</div>
                 <div className='form-group'>
@@ -63,7 +63,7 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }: Props) => {
                 </div>
                 <div className='form-group'>
                   <br />
-                  <button tabIndex={3} onClick={handleSubmit} className='btn btn-info btn-md'>
+                  <button tabIndex={3} type='submit' className='btn btn-info btn-md'>
                     Register
                   </button>
                 </div>

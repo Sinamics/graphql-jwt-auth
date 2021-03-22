@@ -1,13 +1,13 @@
 import { Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { AuthenticationError } from 'apollo-server-express';
-import { User } from '../../entity/Users';
+import { User } from '../../graphql/entity/Users';
 
 interface TokenPayload {
   id: string;
 }
 
-const isAuthenticated = async ({ req }: any, role?: string) => {
+const isAuthenticated = async ({ req }: Response, role?: string) => {
   const { authorization }: any = req?.headers;
   if (!authorization) {
     throw new AuthenticationError('No authorization token found in header!');

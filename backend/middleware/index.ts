@@ -16,6 +16,7 @@ class MiddleWare {
     // build the schema as always
     const schema = buildSchemaSync({
       resolvers: [authResolvers],
+      validate: false,
     });
     // register the used directives implementations
     SchemaDirectiveVisitor.visitSchemaDirectives(schema, {

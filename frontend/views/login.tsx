@@ -18,7 +18,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit: any = async (e: any) => {
     e.preventDefault();
 
     await login({
@@ -44,7 +44,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
         <div id='login-row' className='row justify-content-center align-items-center'>
           <div id='login-column' className='col-md-6'>
             <div id='login-box' className='col-md-12'>
-              <form className='form'>
+              <form className='form' onSubmit={handleSubmit}>
                 <h3 className='text-center text-info'>Login</h3>
                 <div className='text-danger d-flex justify-content-center'>{loginError?.message}</div>
                 <div className='form-group'>
@@ -63,7 +63,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
                 </div>
                 <div className='form-group'>
                   <br />
-                  <button tabIndex={3} onClick={handleSubmit} className='btn btn-info btn-md'>
+                  <button type='submit' tabIndex={3} className='btn btn-info btn-md'>
                     Login
                   </button>
                 </div>

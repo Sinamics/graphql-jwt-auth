@@ -1,7 +1,7 @@
 import { ForbiddenError, SchemaDirectiveVisitor } from 'apollo-server-express';
 import { defaultFieldResolver } from 'graphql';
 import { verify } from 'jsonwebtoken';
-import { User } from '../entity/Users';
+import { User } from './entity/Users';
 
 class AuthDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field: any) {

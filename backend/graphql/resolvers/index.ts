@@ -2,12 +2,13 @@
 // import isAuthenticated from '../../middleware/authorization/user.is.authenticated';
 import { ApolloError, AuthenticationError } from 'apollo-server-express';
 import { Resolver, Mutation, Query, Ctx, Arg, Directive } from 'type-graphql';
-import { User } from '../../entity/Users';
-import { UserInput } from '../../graphql-input-types/auth-input';
-import { PermissionTestSuperuserResponse, PermissionTestUserResponse, UserResponse } from '../../graphql-response-types/auth-response';
+import { User } from '../entity/Users';
+import { UserInput } from '../input-types/auth-input';
+import { PermissionTestSuperuserResponse, PermissionTestUserResponse, UserResponse } from '../response-types/auth-response';
 import isAuthenticated from '../../middleware/authorization/user.is.authenticated';
 import bcrypt from 'bcryptjs';
 import { createAccessToken, createRefreshToken, sendRefreshToken } from '../../jwt/validate.token';
+import { nameLength } from '../../_helpers/name-validation';
 
 const mediumPassword = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})');
 
@@ -65,6 +66,11 @@ export class authResolvers {
 
   @Mutation(() => UserResponse)
   async register(@Arg('registerData') { username, password }: UserInput): Promise<any> {
+    // username validation
+    if (!username) return new AuthenticationError(`username required!`);
+    if (username.length <= 3) return new AuthenticationError(`username must be more than 3 characters!`);
+    if (nameLength(username, 30)) return new AuthenticationError(`Max 30 char in username`);
+
     if (await User.findOne({ username })) {
       // eslint-disable-next-line no-throw-literal
       throw new AuthenticationError(`username "${username}" already taken`);
@@ -73,7 +79,7 @@ export class authResolvers {
     const user = await User.create({ username });
 
     if (password) {
-      if (!mediumPassword.test(password)) return new Error(`Password does not meet the requirements!`);
+      if (!mediumPassword.test(password)) return new AuthenticationError(`Password does not meet the requirements!`);
       // Valid Password, lets hash it
       user.hash = bcrypt.hashSync(password, 10);
     }
@@ -81,28 +87,3 @@ export class authResolvers {
     return { data: await user.save() };
   }
 }
-
-// export class authResolvers = {
-//   Query: {
-//     me: async (_parent: any, _args: any, context: any) => {
-//       return isAuthenticated(context);
-//     },
-//     superuser: async (_parent: any, _args: any, context: any) => {
-//       return isAuthenticated(context, 'superuser');
-//     },
-//     userRoleData: async () => {
-//       return { message: 'Hey from backend' };
-//     },
-//     superUserRoleData: async () => {
-//       return { message: 'Hey from backend' };
-//     },
-//   },
-//   Mutation: {
-//     login: async (_: any, args: any, context: any) => {
-//       return login(args, context);
-//     },
-//     register: async (_: any, args: any) => {
-//       return register(args);
-//     },
-//   },
-// };
