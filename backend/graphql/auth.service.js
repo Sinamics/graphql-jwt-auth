@@ -3,7 +3,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const bcrypt = require('bcryptjs');
 const db = require('../db/connect');
-const { badNames, nameLength } = require('../_helpers/name-validation');
+const { nameLength } = require('../_helpers/name-validation');
 const { createAccessToken, createRefreshToken, sendRefreshToken } = require('../jwt/validate.token');
 const { User } = db;
 
@@ -22,7 +22,7 @@ async function register({ registerData }) {
   // username validation
   if (!registerData.username) return new Error(`username required!`);
   if (registerData.username) {
-    if (badNames(registerData.username)) return new Error(`username not supported!`);
+    if (registerData.username.length <= 3) return new Error(`username must be more than 3 characters!`);
 
     if (nameLength(registerData.username, 30)) return new Error(`Max 30 char in username`);
   }

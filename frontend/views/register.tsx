@@ -30,7 +30,10 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }: Props) => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     register({ variables: { registerData: { ...user } } })
-      .then(() => history.push('login'))
+      .then(({ errors }) => {
+        if (errors?.length) return;
+        history.push('login');
+      })
       .catch((err) => console.error(err));
   };
   if (registerLoading) return <div>Loading...</div>;
@@ -45,11 +48,12 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }: Props) => {
                 <h3 className='text-center text-info'>Register</h3>
                 <div className='text-danger d-flex justify-content-center'>{registerError?.message}</div>
                 <div className='form-group'>
+                  test
                   <label htmlFor='username' className='text-info'>
                     Username:
                   </label>
                   <br />
-                  <input tabIndex={1} onChange={handleChange} type='text' name='username' className='form-control' />
+                  <input tabIndex={1} onChange={handleChange} type='username' name='username' className='form-control' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='password' className='text-info'>

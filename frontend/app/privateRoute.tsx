@@ -12,7 +12,7 @@ interface PrivateRouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = (props): JSX.Element => {
   const { loading, error, data: { me } = { me: null } } = useMeQuery({
-    nextFetchPolicy: 'network-only',
+    fetchPolicy: 'network-only',
   });
 
   if (loading) return <div>Loading User privileges</div>;
