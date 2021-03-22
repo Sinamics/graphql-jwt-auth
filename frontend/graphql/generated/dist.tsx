@@ -39,7 +39,6 @@ export type Mutation = {
   _empty?: Maybe<Scalars['String']>;
   register?: Maybe<Scalars['Boolean']>;
   login?: Maybe<LoginResponse>;
-  uploadProfileImage?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -50,12 +49,6 @@ export type MutationRegisterArgs = {
 
 export type MutationLoginArgs = {
   loginData: UserInput;
-};
-
-
-export type MutationUploadProfileImageArgs = {
-  file: Scalars['Upload'];
-  userId?: Maybe<Scalars['ID']>;
 };
 
 export type PermissionTestData = {
@@ -70,13 +63,6 @@ export type Query = {
   superuser?: Maybe<Users>;
   userRoleData: PermissionTestData;
   superUserRoleData: PermissionTestData;
-  getUsers?: Maybe<Array<Maybe<Users>>>;
-  getUser?: Maybe<Users>;
-};
-
-
-export type QueryGetUserArgs = {
-  _id: Scalars['ID'];
 };
 
 export type Register = {
@@ -87,8 +73,7 @@ export type Register = {
 
 export enum Role {
   Superuser = 'superuser',
-  User = 'user',
-  Organizer = 'organizer'
+  User = 'user'
 }
 
 export type Subscription = {
@@ -148,7 +133,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'Users' }
-    & Pick<Users, '_id' | 'username' | 'role' | 'loggedIn' | 'lastlogin'>
+    & Pick<Users, '_id' | 'username' | 'role' | 'lastlogin'>
   )> }
 );
 
@@ -181,19 +166,8 @@ export type SuperuserQuery = (
   { __typename?: 'Query' }
   & { superuser?: Maybe<(
     { __typename?: 'Users' }
-    & Pick<Users, '_id' | 'username' | 'loggedIn' | 'role'>
+    & Pick<Users, '_id' | 'username' | 'role'>
   )> }
-);
-
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UsersQuery = (
-  { __typename?: 'Query' }
-  & { getUsers?: Maybe<Array<Maybe<(
-    { __typename?: 'Users' }
-    & Pick<Users, '_id' | 'username' | 'lastlogin' | 'role'>
-  )>>> }
 );
 
 
@@ -275,7 +249,6 @@ export const MeDocument = gql`
     _id
     username
     role
-    loggedIn
     lastlogin
   }
 }
@@ -374,7 +347,6 @@ export const SuperuserDocument = gql`
   superuser {
     _id
     username
-    loggedIn
     role
   }
 }
@@ -404,38 +376,3 @@ export function useSuperuserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type SuperuserQueryHookResult = ReturnType<typeof useSuperuserQuery>;
 export type SuperuserLazyQueryHookResult = ReturnType<typeof useSuperuserLazyQuery>;
 export type SuperuserQueryResult = Apollo.QueryResult<SuperuserQuery, SuperuserQueryVariables>;
-export const UsersDocument = gql`
-    query users {
-  getUsers {
-    _id
-    username
-    lastlogin
-    role
-  }
-}
-    `;
-
-/**
- * __useUsersQuery__
- *
- * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUsersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
-        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
-      }
-export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
-          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
-        }
-export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
-export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
-export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;

@@ -1,8 +1,0 @@
-query users {
-  getUsers {
-    _id
-    username
-    lastlogin
-    role
-  }
-}

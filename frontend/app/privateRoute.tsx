@@ -20,4 +20,5 @@ const PrivateRoute: React.FC<PrivateRouteProps> = (props): JSX.Element => {
 
   return me ? <Route path={props.path} exact={props.exact} component={props.component} /> : <Redirect to='/login' />;
 };
+
 export default PrivateRoute;

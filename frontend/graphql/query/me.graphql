@@ -3,7 +3,6 @@ query me {
     _id
     username
     role
-    loggedIn
     lastlogin
   }
 }

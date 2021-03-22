@@ -21,11 +21,8 @@ async function register({ registerData }) {
 
   // username validation
   if (!registerData.username) return new Error(`username required!`);
-  if (registerData.username) {
-    if (registerData.username.length <= 3) return new Error(`username must be more than 3 characters!`);
-
-    if (nameLength(registerData.username, 30)) return new Error(`Max 30 char in username`);
-  }
+  if (registerData.username.length <= 3) return new Error(`username must be more than 3 characters!`);
+  if (nameLength(registerData.username, 30)) return new Error(`Max 30 char in username`);
 
   // validate
   if (await User.findOne({ username: registerData.username })) {
