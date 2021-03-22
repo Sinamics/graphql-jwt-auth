@@ -1,4 +1,4 @@
-## GraphQl Mongoose Jwt Boilerplate
+## GraphQl Mongoose Jwt Typeorm Boilerplate
 
 1. Install mongodb on your computer
 2. Install `npm i typescript concurrently ts-node-dev -g`
