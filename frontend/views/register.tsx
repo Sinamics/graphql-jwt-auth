@@ -44,11 +44,10 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }: Props) => {
         <div className='row justify-content-center align-items-center'>
           <div className='col-md-6'>
             <div className='col-md-12'>
-              <form className='form' action='' method='post'>
+              <form className='form'>
                 <h3 className='text-center text-info'>Register</h3>
                 <div className='text-danger d-flex justify-content-center'>{registerError?.message}</div>
                 <div className='form-group'>
-                  test
                   <label htmlFor='username' className='text-info'>
                     Username:
                   </label>

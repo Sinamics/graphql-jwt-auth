@@ -44,31 +44,33 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
         <div id='login-row' className='row justify-content-center align-items-center'>
           <div id='login-column' className='col-md-6'>
             <div id='login-box' className='col-md-12'>
-              <h3 className='text-center text-info'>Login</h3>
-              <div className='text-danger d-flex justify-content-center'>{loginError?.message}</div>
-              <div className='form-group'>
-                <label htmlFor='username' className='text-info'>
-                  Username:
-                </label>
-                <br />
-                <input tabIndex={1} onChange={handleChange} type='text' name='username' className='form-control' />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='password' className='text-info'>
-                  Password:
-                </label>
-                <br />
-                <input tabIndex={2} onChange={handleChange} type='password' name='password' className='form-control' />
-              </div>
-              <div className='form-group'>
-                <br />
-                <button tabIndex={3} onClick={handleSubmit} className='btn btn-info btn-md'>
-                  Login
-                </button>
-              </div>
-              <div id='register-link' className='text-right'>
-                <Link to='register'>Register</Link>
-              </div>
+              <form className='form'>
+                <h3 className='text-center text-info'>Login</h3>
+                <div className='text-danger d-flex justify-content-center'>{loginError?.message}</div>
+                <div className='form-group'>
+                  <label htmlFor='username' className='text-info'>
+                    Username:
+                  </label>
+                  <br />
+                  <input tabIndex={1} onChange={handleChange} type='text' name='username' className='form-control' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='password' className='text-info'>
+                    Password:
+                  </label>
+                  <br />
+                  <input tabIndex={2} onChange={handleChange} type='password' name='password' className='form-control' />
+                </div>
+                <div className='form-group'>
+                  <br />
+                  <button tabIndex={3} onClick={handleSubmit} className='btn btn-info btn-md'>
+                    Login
+                  </button>
+                </div>
+                <div id='register-link' className='text-right'>
+                  <Link to='register'>Register</Link>
+                </div>
+              </form>
             </div>
           </div>
         </div>
