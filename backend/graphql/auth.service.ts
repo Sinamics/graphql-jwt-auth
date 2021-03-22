@@ -1,20 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-throw-literal */
-const { AuthenticationError } = require('apollo-server-express');
-const bcrypt = require('bcryptjs');
-const db = require('../db/connect');
-const { nameLength } = require('../_helpers/name-validation');
-const { createAccessToken, createRefreshToken, sendRefreshToken } = require('../jwt/validate.token');
-const { User } = db;
+import { AuthenticationError } from 'apollo-server-express';
+import bcrypt from 'bcryptjs';
+import { User } from '../db/connect';
+import { nameLength } from '../_helpers/name-validation';
+import { createAccessToken, createRefreshToken, sendRefreshToken } from '../jwt/validate.token';
 
 const mediumPassword = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})');
 
-module.exports = {
-  register,
-  login,
-};
-
-async function register({ registerData }) {
+export const register = async ({ registerData }: any) => {
   if (!registerData) return;
   // Trim all values for trailing white space
   Object.keys(registerData).map((k) => (registerData[k] = typeof registerData[k] == 'string' ? registerData[k].trim() : registerData[k]));
@@ -30,7 +24,7 @@ async function register({ registerData }) {
     return new Error(`username "${registerData.username}" already taken`);
   }
 
-  const user = new User(registerData);
+  const user: any = new User(registerData);
 
   // hash password
   if (registerData.password) {
@@ -40,12 +34,12 @@ async function register({ registerData }) {
   }
 
   // save user
-  await user.save();
-}
+  return await user.save();
+};
 
 // eslint-disable-next-line consistent-return
-async function login({ loginData: { username, password } }, { res }) {
-  const user = await User.findOne({ username });
+export const login = async ({ loginData: { username, password } }: any, { res }: any) => {
+  const user: any = await User.findOne({ username });
 
   if (!user) throw new AuthenticationError('username or password is wrong!');
 
@@ -60,4 +54,4 @@ async function login({ loginData: { username, password } }, { res }) {
     accessToken: createAccessToken(user),
     user,
   };
-}
+};

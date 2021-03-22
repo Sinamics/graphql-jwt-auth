@@ -1,15 +1,14 @@
-const { ForbiddenError, SchemaDirectiveVisitor } = require('apollo-server-express');
-const { defaultFieldResolver } = require('graphql');
-const { verify } = require('jsonwebtoken');
-const db = require('../db/connect');
-const { User } = db;
+import { ForbiddenError, SchemaDirectiveVisitor } from 'apollo-server-express';
+import { defaultFieldResolver } from 'graphql';
+import { verify } from 'jsonwebtoken';
+import { User } from '../db/connect';
 
 class AuthDirective extends SchemaDirectiveVisitor {
-  visitFieldDefinition(field) {
+  visitFieldDefinition(field: any) {
     const requiredRole = this.args.roles;
     const originalResolve = field.resolve || defaultFieldResolver;
 
-    field.resolve = async function (...args) {
+    field.resolve = async function (...args: any) {
       const context = args[2];
       const { authorization } = context.req.headers;
 
@@ -18,11 +17,11 @@ class AuthDirective extends SchemaDirectiveVisitor {
       }
       try {
         const token = authorization.split(' ')[1];
-        const payload = verify(token, process.env.ACCESS_TOKEN_SECRET);
+        const payload: any = verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-        let u = await User.findById(payload.userId);
-        const userRoles = u.role || [];
-        const isUnauthorized = !requiredRole.some((r) => userRoles.includes(r));
+        const user: any = await User.findById(payload.userId);
+        const userRoles = user.role || [];
+        const isUnauthorized = !requiredRole.some((r: string) => userRoles.includes(r));
 
         if (isUnauthorized) {
           throw new ForbiddenError(`You need following role: ${requiredRole}`);
@@ -37,4 +36,4 @@ class AuthDirective extends SchemaDirectiveVisitor {
   }
 }
 
-module.exports = { AuthDirective };
+export { AuthDirective };

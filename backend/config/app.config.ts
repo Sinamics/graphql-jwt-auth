@@ -1,10 +1,15 @@
-require('dotenv').config();
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
+import dotenv from 'dotenv';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import { Express } from 'express';
+
+dotenv.config();
 
 class AppConfig {
-  constructor(app, express) {
+  app: any;
+  express: any;
+  constructor(app: any, express: Express) {
     this.app = app;
     this.express = express;
   }
@@ -28,4 +33,5 @@ class AppConfig {
     }
   }
 }
-module.exports = AppConfig;
+
+export default AppConfig;

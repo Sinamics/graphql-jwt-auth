@@ -1,5 +1,5 @@
-const { gql } = require('@apollo/client');
-const { authTypes } = require('./schema');
+import { gql } from '@apollo/client';
+import { authTypes } from './schema';
 
 /* initilize the query and mutation string.
   These will be extended in the project files
@@ -17,8 +17,4 @@ const query = gql`
   }
 `;
 
-const typeDefs = [query, authTypes];
-
-module.exports = {
-  typeDefs,
-};
+export const typeDefs = [query, authTypes];

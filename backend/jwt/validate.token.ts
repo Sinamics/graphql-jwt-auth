@@ -1,16 +1,15 @@
-const { verify } = require('jsonwebtoken');
-const { createRefreshToken, createAccessToken } = require('./create.tokens');
-const { sendRefreshToken } = require('./send.refresh.token');
-const db = require('../db/connect');
-
-const { User } = db;
+import { verify } from 'jsonwebtoken';
+import { createRefreshToken, createAccessToken } from './create.tokens';
+import sendRefreshToken from './send.refresh.token';
+import { User } from '../db/connect';
+import { Request, Response } from 'express';
 
 /* 
  This functions is called from the /routes directive when /refresh_token is sent to server. 
  
 */
 
-async function validateTokensMiddleware(req, res) {
+async function validateTokensMiddleware(req: Request, res: Response) {
   const token = req.cookies && req.cookies.randomname;
 
   const lastlogin = new Date();
@@ -21,14 +20,14 @@ async function validateTokensMiddleware(req, res) {
 
   let payload = null;
   try {
-    payload = verify(token, process.env.REFRESH_TOKEN_SECRET);
+    payload = verify(token, process.env.REFRESH_TOKEN_SECRET as any) as any;
   } catch (err) {
     return res.status(400).send({ loggedIn: false, accessToken: '', message: 'token does not match!' });
   }
 
   // token is valid and
   // we can send back an access token
-  const user = await User.findOne({ _id: payload.userId });
+  const user: any = await User.findOne({ _id: payload.userId });
 
   if (!user) {
     return res.status(400).send({ loggedIn: false, accessToken: '' });
@@ -51,4 +50,4 @@ async function validateTokensMiddleware(req, res) {
   });
 }
 
-module.exports = { sendRefreshToken, createRefreshToken, createAccessToken, validateTokensMiddleware };
+export { sendRefreshToken, createRefreshToken, createAccessToken, validateTokensMiddleware };

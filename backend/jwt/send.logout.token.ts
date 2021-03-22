@@ -1,4 +1,6 @@
-const sendLogoutToken = (res, token) => {
+import { Response } from 'express';
+
+const sendLogoutToken = (res: Response, token: string) => {
   res.cookie('randomname', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'production' ? false : true, //on HTTPS
@@ -8,4 +10,4 @@ const sendLogoutToken = (res, token) => {
   });
 };
 
-module.exports = { sendLogoutToken };
+export default sendLogoutToken;

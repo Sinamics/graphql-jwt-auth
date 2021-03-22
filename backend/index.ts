@@ -1,10 +1,14 @@
-const http = require('http');
-const express = require('express');
-const AppConfig = require('./config/app.config');
-const Routes = require('./routes');
-const { MiddleWare } = require('./middleware/index');
+import http from 'http';
+import express, { Express } from 'express';
+import AppConfig from './config/app.config';
+import Routes from './routes';
+import MiddleWare from './middleware/index';
 
 class Server {
+  express: any;
+  app: Express;
+  http: any;
+  port: any;
   constructor() {
     this.express = express;
     this.app = this.express();

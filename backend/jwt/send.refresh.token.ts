@@ -1,4 +1,6 @@
-const sendRefreshToken = (res, token) => {
+import { Response } from 'express';
+
+const sendRefreshToken = (res: Response, token: string) => {
   res.cookie('randomname', token, {
     maxAge: 1000 * 60 * 60 * 24 * 50, // 50 days in milliseconds
     httpOnly: true,
@@ -9,4 +11,4 @@ const sendRefreshToken = (res, token) => {
   });
 };
 
-module.exports = { sendRefreshToken };
+export default sendRefreshToken;

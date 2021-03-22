@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server-express');
 
-const authTypes = gql`
+export const authTypes = gql`
   directive @hasRole(roles: [Role!]) on FIELD_DEFINITION | FIELD
   enum Role {
     superuser
@@ -53,7 +53,3 @@ const authTypes = gql`
     superUserRoleData: permissionTestData! @hasRole(roles: [superuser])
   }
 `;
-
-module.exports = {
-  authTypes,
-};

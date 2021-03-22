@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
-const mongoose = require('mongoose');
+import { User } from './auth.model';
+import mongoose from 'mongoose';
 const isDev = process.env.NODE_ENV !== 'production';
 
 mongoose
@@ -12,6 +13,4 @@ mongoose
   .catch((err) => console.warn(err));
 mongoose.Promise = global.Promise;
 
-module.exports = {
-  User: require('./auth.model'),
-};
+export { User };
