@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMeQuery, useSuperUserRoleDataQuery, useUserRoleDataQuery } from '../graphql/generated/dist';
+import { useMeQuery, useSuperUserRoleDataQuery, useUserRoleDataQuery } from 'frontend/graphql/generated/dist';
 import { setAccessToken } from '../utils/accessToken';
 
 //@ts-ignore

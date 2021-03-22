@@ -5,7 +5,7 @@ declare global {
       NODE_ENV: 'development' | 'production';
       PORT?: string;
       PWD: string;
-      SERVER_PORT: number;
+      SERVER_PORT: string;
       ACCESS_TOKEN_SECRET: string;
       REFRESH_TOKEN_SECRET: string;
       REFRESH_TOKEN_LIFE: string;
