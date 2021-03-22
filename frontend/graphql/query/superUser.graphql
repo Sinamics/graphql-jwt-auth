@@ -1,9 +1,0 @@
-query superuser {
-  superuser {
-    data {
-      id
-      username
-      role
-    }
-  }
-}

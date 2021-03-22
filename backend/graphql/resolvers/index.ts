@@ -1,9 +1,7 @@
-// import { register, login } from '../auth.service';
-// import isAuthenticated from '../../middleware/authorization/user.is.authenticated';
 import { ApolloError, AuthenticationError } from 'apollo-server-express';
 import { Resolver, Mutation, Query, Ctx, Arg, Directive } from 'type-graphql';
-import { User } from '../entity/Users';
-import { UserInput } from '../input-types/auth-input';
+import { User, UserRole } from '../entity/Users';
+import { ToggleSuperuserInput, UserInput } from '../input-types/auth-input';
 import { PermissionTestSuperuserResponse, PermissionTestUserResponse, UserResponse } from '../response-types/auth-response';
 import isAuthenticated from '../../middleware/authorization/user.is.authenticated';
 import bcrypt from 'bcryptjs';
@@ -24,21 +22,16 @@ export class authResolvers {
     return { data: await isAuthenticated({ ...ctx }) };
   }
 
-  @Query(() => UserResponse, { nullable: true })
-  async superuser(@Ctx() ctx: MyContext): Promise<User | undefined> {
-    return User.findOne(1);
-  }
-
-  @Directive('@hasRole(roles: [user])')
+  @Directive('@hasRole(roles: [user, superuser])')
   @Query(() => PermissionTestUserResponse, { nullable: true })
   async userRoleData() {
-    return { message: 'Hey from backend' };
+    return { message: 'Hey user !' };
   }
 
   @Directive('@hasRole(roles: [superuser])')
   @Query(() => PermissionTestSuperuserResponse, { nullable: true })
   async superUserRoleData() {
-    return { message: 'Hey from backend' };
+    return { message: 'Hey SuperUser, whats up!' };
   }
 
   @Mutation(() => UserResponse)
@@ -84,6 +77,13 @@ export class authResolvers {
       user.hash = bcrypt.hashSync(password, 10);
     }
 
+    return { data: await user.save() };
+  }
+
+  @Mutation(() => UserResponse)
+  async toggleSuperuser(@Arg('user') { id }: ToggleSuperuserInput): Promise<any> {
+    const user = await User.findOne(id);
+    user.role = user.role.includes('user') ? [UserRole.SUPERUSER] : ([UserRole.USER] as any);
     return { data: await user.save() };
   }
 }

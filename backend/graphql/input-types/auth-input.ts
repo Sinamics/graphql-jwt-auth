@@ -1,4 +1,4 @@
-import { InputType, Field } from 'type-graphql';
+import { InputType, Field, ID } from 'type-graphql';
 
 @InputType()
 export class UserInput {
@@ -7,4 +7,10 @@ export class UserInput {
 
   @Field()
   password: string;
+}
+
+@InputType()
+export class ToggleSuperuserInput {
+  @Field(() => ID)
+  id: string;
 }

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useSuperuserQuery } from 'frontend/graphql/generated/dist';
+import { useMeQuery } from 'frontend/graphql/generated/dist';
 
 // @ts-ignore
 import config from 'config';
@@ -12,15 +12,17 @@ interface props {
 }
 
 const AdminRoute: React.FC<{ component: React.FC<props>; path: string; exact: boolean }> = (props): JSX.Element => {
-  const { loading, error, data } = useSuperuserQuery();
+  const { loading, error, data: { me } = { me: null } } = useMeQuery({
+    fetchPolicy: 'network-only',
+  });
 
   if (loading) return <div>Loading Admin privileges</div>;
 
-  if (!data) return <Redirect to={{ pathname: '/dashboard' }} />;
+  if (!me) return <Redirect to={{ pathname: '/login' }} />;
   if (error) return <div>`${error}`</div>;
 
-  const admin = !!data?.superuser?.data?.role.includes(config.superUser);
+  const admin = !!me?.data?.role.includes(config.superUser);
 
-  return admin ? <Route path={props.path} exact={props.exact} component={props.component} /> : <Redirect to='/dashboard' />;
+  return admin ? <Route path={props.path} exact={props.exact} component={props.component} /> : <Redirect to='/login' />;
 };
 export default AdminRoute;

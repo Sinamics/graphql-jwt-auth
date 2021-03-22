@@ -1,11 +1,17 @@
 query userRoleData {
   userRoleData {
     message
+    errors {
+      message
+    }
   }
 }
 
 query superUserRoleData {
   superUserRoleData {
     message
+    errors {
+      message
+    }
   }
 }

@@ -1,6 +1,7 @@
 query me {
   me {
     data {
+      id
       username
       role
     }

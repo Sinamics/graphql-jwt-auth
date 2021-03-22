@@ -1,0 +1,11 @@
+mutation toggleSuperuser($user: ToggleSuperuserInput!) {
+  toggleSuperuser(user: $user) {
+    data {
+      id
+      role
+    }
+    errors {
+      message
+    }
+  }
+}

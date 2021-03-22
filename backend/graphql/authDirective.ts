@@ -1,4 +1,4 @@
-import { ForbiddenError, SchemaDirectiveVisitor } from 'apollo-server-express';
+import { AuthenticationError, SchemaDirectiveVisitor } from 'apollo-server-express';
 import { defaultFieldResolver } from 'graphql';
 import { verify } from 'jsonwebtoken';
 import { User } from './entity/Users';
@@ -23,13 +23,13 @@ class AuthDirective extends SchemaDirectiveVisitor {
         const isUnauthorized = !requiredRole.some((r: string) => userRoles.includes(r));
 
         if (isUnauthorized) {
-          throw new ForbiddenError(`You need following role: ${requiredRole}`);
+          throw new AuthenticationError(`You need following role: ${requiredRole}`);
         }
 
         return originalResolve.apply(this, args);
       } catch (err) {
         console.log(err);
-        throw new Error(err);
+        throw new AuthenticationError(err);
       }
     };
   }

@@ -16,9 +16,8 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me: UserResponse;
-  superuser?: Maybe<UserResponse>;
-  userRoleData?: Maybe<PermissionTestResponse>;
-  superUserRoleData?: Maybe<PermissionTestResponse>;
+  userRoleData?: Maybe<PermissionTestUserResponse>;
+  superUserRoleData?: Maybe<PermissionTestSuperuserResponse>;
 };
 
 export type UserResponse = {
@@ -46,8 +45,14 @@ export type FieldError = {
   message?: Maybe<Scalars['String']>;
 };
 
-export type PermissionTestResponse = {
-  __typename?: 'PermissionTestResponse';
+export type PermissionTestUserResponse = {
+  __typename?: 'PermissionTestUserResponse';
+  message?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<FieldError>>;
+};
+
+export type PermissionTestSuperuserResponse = {
+  __typename?: 'PermissionTestSuperuserResponse';
   message?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<FieldError>>;
 };
@@ -56,6 +61,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   login: UserResponse;
   register: UserResponse;
+  toggleSuperuser: UserResponse;
 };
 
 
@@ -68,9 +74,18 @@ export type MutationRegisterArgs = {
   registerData: UserInput;
 };
 
+
+export type MutationToggleSuperuserArgs = {
+  user: ToggleSuperuserInput;
+};
+
 export type UserInput = {
   username: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type ToggleSuperuserInput = {
+  id: Scalars['ID'];
 };
 
 export type LoginMutationVariables = Exact<{
@@ -87,6 +102,25 @@ export type LoginMutation = (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'username' | 'role'>
     )> }
+  ) }
+);
+
+export type ToggleSuperuserMutationVariables = Exact<{
+  user: ToggleSuperuserInput;
+}>;
+
+
+export type ToggleSuperuserMutation = (
+  { __typename?: 'Mutation' }
+  & { toggleSuperuser: (
+    { __typename?: 'UserResponse' }
+    & { data?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'role'>
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'message'>
+    )>> }
   ) }
 );
 
@@ -115,7 +149,7 @@ export type MeQuery = (
     { __typename?: 'UserResponse' }
     & { data?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'username' | 'role'>
+      & Pick<User, 'id' | 'username' | 'role'>
     )> }
   ) }
 );
@@ -126,8 +160,12 @@ export type UserRoleDataQueryVariables = Exact<{ [key: string]: never; }>;
 export type UserRoleDataQuery = (
   { __typename?: 'Query' }
   & { userRoleData?: Maybe<(
-    { __typename?: 'PermissionTestResponse' }
-    & Pick<PermissionTestResponse, 'message'>
+    { __typename?: 'PermissionTestUserResponse' }
+    & Pick<PermissionTestUserResponse, 'message'>
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'message'>
+    )>> }
   )> }
 );
 
@@ -137,22 +175,12 @@ export type SuperUserRoleDataQueryVariables = Exact<{ [key: string]: never; }>;
 export type SuperUserRoleDataQuery = (
   { __typename?: 'Query' }
   & { superUserRoleData?: Maybe<(
-    { __typename?: 'PermissionTestResponse' }
-    & Pick<PermissionTestResponse, 'message'>
-  )> }
-);
-
-export type SuperuserQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SuperuserQuery = (
-  { __typename?: 'Query' }
-  & { superuser?: Maybe<(
-    { __typename?: 'UserResponse' }
-    & { data?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'username' | 'role'>
-    )> }
+    { __typename?: 'PermissionTestSuperuserResponse' }
+    & Pick<PermissionTestSuperuserResponse, 'message'>
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'message'>
+    )>> }
   )> }
 );
 
@@ -194,6 +222,44 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const ToggleSuperuserDocument = gql`
+    mutation toggleSuperuser($user: ToggleSuperuserInput!) {
+  toggleSuperuser(user: $user) {
+    data {
+      id
+      role
+    }
+    errors {
+      message
+    }
+  }
+}
+    `;
+export type ToggleSuperuserMutationFn = Apollo.MutationFunction<ToggleSuperuserMutation, ToggleSuperuserMutationVariables>;
+
+/**
+ * __useToggleSuperuserMutation__
+ *
+ * To run a mutation, you first call `useToggleSuperuserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useToggleSuperuserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [toggleSuperuserMutation, { data, loading, error }] = useToggleSuperuserMutation({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useToggleSuperuserMutation(baseOptions?: Apollo.MutationHookOptions<ToggleSuperuserMutation, ToggleSuperuserMutationVariables>) {
+        return Apollo.useMutation<ToggleSuperuserMutation, ToggleSuperuserMutationVariables>(ToggleSuperuserDocument, baseOptions);
+      }
+export type ToggleSuperuserMutationHookResult = ReturnType<typeof useToggleSuperuserMutation>;
+export type ToggleSuperuserMutationResult = Apollo.MutationResult<ToggleSuperuserMutation>;
+export type ToggleSuperuserMutationOptions = Apollo.BaseMutationOptions<ToggleSuperuserMutation, ToggleSuperuserMutationVariables>;
 export const RegisterDocument = gql`
     mutation register($registerData: UserInput!) {
   register(registerData: $registerData) {
@@ -232,6 +298,7 @@ export const MeDocument = gql`
     query me {
   me {
     data {
+      id
       username
       role
     }
@@ -267,6 +334,9 @@ export const UserRoleDataDocument = gql`
     query userRoleData {
   userRoleData {
     message
+    errors {
+      message
+    }
   }
 }
     `;
@@ -299,6 +369,9 @@ export const SuperUserRoleDataDocument = gql`
     query superUserRoleData {
   superUserRoleData {
     message
+    errors {
+      message
+    }
   }
 }
     `;
@@ -327,39 +400,3 @@ export function useSuperUserRoleDataLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type SuperUserRoleDataQueryHookResult = ReturnType<typeof useSuperUserRoleDataQuery>;
 export type SuperUserRoleDataLazyQueryHookResult = ReturnType<typeof useSuperUserRoleDataLazyQuery>;
 export type SuperUserRoleDataQueryResult = Apollo.QueryResult<SuperUserRoleDataQuery, SuperUserRoleDataQueryVariables>;
-export const SuperuserDocument = gql`
-    query superuser {
-  superuser {
-    data {
-      id
-      username
-      role
-    }
-  }
-}
-    `;
-
-/**
- * __useSuperuserQuery__
- *
- * To run a query within a React component, call `useSuperuserQuery` and pass it any options that fit your needs.
- * When your component renders, `useSuperuserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSuperuserQuery({
- *   variables: {
- *   },
- * });
- */
-export function useSuperuserQuery(baseOptions?: Apollo.QueryHookOptions<SuperuserQuery, SuperuserQueryVariables>) {
-        return Apollo.useQuery<SuperuserQuery, SuperuserQueryVariables>(SuperuserDocument, baseOptions);
-      }
-export function useSuperuserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SuperuserQuery, SuperuserQueryVariables>) {
-          return Apollo.useLazyQuery<SuperuserQuery, SuperuserQueryVariables>(SuperuserDocument, baseOptions);
-        }
-export type SuperuserQueryHookResult = ReturnType<typeof useSuperuserQuery>;
-export type SuperuserLazyQueryHookResult = ReturnType<typeof useSuperuserLazyQuery>;
-export type SuperuserQueryResult = Apollo.QueryResult<SuperuserQuery, SuperuserQueryVariables>;

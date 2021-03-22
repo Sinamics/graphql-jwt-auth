@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMeQuery, useSuperUserRoleDataQuery, useUserRoleDataQuery } from 'frontend/graphql/generated/dist';
+import { useMeQuery, useSuperUserRoleDataQuery, useToggleSuperuserMutation, useUserRoleDataQuery } from 'frontend/graphql/generated/dist';
 import { setAccessToken } from '../utils/accessToken';
 
 //@ts-ignore
@@ -12,21 +12,35 @@ const PrivatePage = ({ history }: props): React.ReactNode => {
   const { data: userdata, error: usererror } = useUserRoleDataQuery();
   const { data: superUserData, error: superUserError } = useSuperUserRoleDataQuery();
 
-  const { loading, error, data: { me } = { me: null } } = useMeQuery();
+  const [toggleSuperUser] = useToggleSuperuserMutation();
 
-  const LogOut = () => {
+  const { loading, error, data: { me } = { me: Object } }: any = useMeQuery();
+
+  const LogOut = async () => {
     setAccessToken('');
-    return fetch(`${apiUrl}/logout`, {
+    await fetch(`${apiUrl}/logout`, {
       method: 'POST',
       credentials: 'include',
-    }).then(() => history.push('login'));
+    });
+    return history.push('login');
   };
 
   if (loading) return <div>Loading Me..</div>;
   if (error) return <div>{error.message}</div>;
+
   return (
     <div className='container'>
-      <div className='d-flex justify-content-end m-5'>
+      <div className='d-flex justify-content-between m-5'>
+        <button
+          className='btn btn-primary'
+          onClick={() =>
+            toggleSuperUser({ variables: { user: { id: me?.data?.id } } })
+              .then(() => window.location.reload())
+              .catch((err) => console.log(err))
+          }
+        >
+          Toggle Admin Permission
+        </button>
         <button className='btn btn-danger' onClick={LogOut}>
           Logout
         </button>
