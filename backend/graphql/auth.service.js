@@ -47,10 +47,10 @@ async function register({ registerData }) {
 async function login({ loginData: { username, password } }, { res }) {
   const user = await User.findOne({ username });
 
-  if (!user) throw new AuthenticationError('email or password is wrong!');
+  if (!user) throw new AuthenticationError('username or password is wrong!');
 
   const valid = bcrypt.compareSync(password, user.hash);
-  if (!valid) throw new AuthenticationError('email or password is wrong!');
+  if (!valid) throw new AuthenticationError('username or password is wrong!');
 
   // Send refresh token as cookie header
   sendRefreshToken(res, createRefreshToken(user));
