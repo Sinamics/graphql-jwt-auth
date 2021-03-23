@@ -14,6 +14,7 @@
 ## Features
 
 - [x] Semantic-Ui React (https://react.semantic-ui.com/)
+- [x] React Lazy Loading with Suspense
 - [x] Express Server (port 4000)
 - [x] type-Graphql Entry Point (/graphql)
 - [x] Graphql Playground Page (http://localhost:4000/graphql)
