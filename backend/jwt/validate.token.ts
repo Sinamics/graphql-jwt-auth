@@ -12,8 +12,6 @@ import { User } from '../graphql/entity/Users';
 async function validateTokensMiddleware(req: Request, res: Response) {
   const token = req.cookies && req.cookies.randomname;
 
-  const lastlogin = new Date();
-
   if (!token) {
     return res.status(400).send({ loggedIn: false, accessToken: null, message: 'not logged in' });
   }
@@ -37,7 +35,8 @@ async function validateTokensMiddleware(req: Request, res: Response) {
   }
 
   // Update database with the last seen time
-  await User.update({ id: payload.id }, { lastlogin });
+  user.lastseen = new Date();
+  user.save();
 
   sendRefreshToken(res, createRefreshToken(user));
 

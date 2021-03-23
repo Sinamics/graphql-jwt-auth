@@ -4,6 +4,8 @@ query me {
       id
       username
       role
+      createdDate
+      lastseen
     }
   }
 }

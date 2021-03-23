@@ -38,7 +38,7 @@ const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
             onClick={() =>
               toggleSuperUser({ variables: { user: { id: me?.data?.id } } })
                 // TODO just for testing purpose.. :)
-                .then(() => history.push('privateroute'))
+                .then(() => window.location.reload())
                 .catch((err) => console.log(err))
             }
           >

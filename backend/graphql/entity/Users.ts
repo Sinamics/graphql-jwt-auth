@@ -27,11 +27,11 @@ export class User extends BaseEntity {
 
   @Column()
   @Field()
-  createdDate: string;
+  createdDate: Date = new Date();
 
   @Field()
   @Column()
-  lastlogin: Date;
+  lastseen: Date;
 
   @Field(() => [String], { nullable: false })
   @Column({

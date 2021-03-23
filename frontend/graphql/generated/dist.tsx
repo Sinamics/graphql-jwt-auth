@@ -16,8 +16,8 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me: UserResponse;
-  userRoleData?: Maybe<PermissionTestUserResponse>;
-  superUserRoleData?: Maybe<PermissionTestSuperuserResponse>;
+  userRoleData: PermissionTestUserResponse;
+  superUserRoleData: PermissionTestSuperuserResponse;
 };
 
 export type UserResponse = {
@@ -33,8 +33,8 @@ export type User = {
   username: Scalars['String'];
   hash: Scalars['String'];
   tokenVersion: Scalars['String'];
-  createdDate: Scalars['String'];
-  lastlogin: Scalars['DateTime'];
+  createdDate: Scalars['DateTime'];
+  lastseen: Scalars['DateTime'];
   role: Array<Scalars['String']>;
 };
 
@@ -100,7 +100,7 @@ export type LoginMutation = (
     & Pick<UserResponse, 'accessToken'>
     & { data?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'username' | 'role'>
+      & Pick<User, 'id' | 'username' | 'role' | 'createdDate' | 'lastseen'>
     )> }
   ) }
 );
@@ -149,7 +149,7 @@ export type MeQuery = (
     { __typename?: 'UserResponse' }
     & { data?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'username' | 'role'>
+      & Pick<User, 'id' | 'username' | 'role' | 'createdDate' | 'lastseen'>
     )> }
   ) }
 );
@@ -159,14 +159,14 @@ export type UserRoleDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type UserRoleDataQuery = (
   { __typename?: 'Query' }
-  & { userRoleData?: Maybe<(
+  & { userRoleData: (
     { __typename?: 'PermissionTestUserResponse' }
     & Pick<PermissionTestUserResponse, 'message'>
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
       & Pick<FieldError, 'message'>
     )>> }
-  )> }
+  ) }
 );
 
 export type SuperUserRoleDataQueryVariables = Exact<{ [key: string]: never; }>;
@@ -174,14 +174,14 @@ export type SuperUserRoleDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type SuperUserRoleDataQuery = (
   { __typename?: 'Query' }
-  & { superUserRoleData?: Maybe<(
+  & { superUserRoleData: (
     { __typename?: 'PermissionTestSuperuserResponse' }
     & Pick<PermissionTestSuperuserResponse, 'message'>
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
       & Pick<FieldError, 'message'>
     )>> }
-  )> }
+  ) }
 );
 
 
@@ -193,6 +193,8 @@ export const LoginDocument = gql`
       id
       username
       role
+      createdDate
+      lastseen
     }
   }
 }
@@ -301,6 +303,8 @@ export const MeDocument = gql`
       id
       username
       role
+      createdDate
+      lastseen
     }
   }
 }
