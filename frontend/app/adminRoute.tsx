@@ -10,9 +10,7 @@ interface RouteProps {
 }
 
 const AdminRoute: React.FC<{ component: React.FC<RouteProps>; path: string; exact: boolean }> = (props): JSX.Element => {
-  const { loading, error, data: { me } = { me: null } } = useMeQuery({
-    fetchPolicy: 'network-only',
-  });
+  const { loading, error, data: { me } = { me: null } } = useMeQuery();
 
   if (loading) return <div>Loading Admin privileges</div>;
 
