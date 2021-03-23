@@ -23,13 +23,13 @@ export class authResolvers {
   }
 
   @Directive('@hasRole(roles: [user, superuser])')
-  @Query(() => PermissionTestUserResponse, { nullable: true })
+  @Query(() => PermissionTestUserResponse)
   async userRoleData() {
     return { message: 'Hey user !' };
   }
 
   @Directive('@hasRole(roles: [superuser])')
-  @Query(() => PermissionTestSuperuserResponse, { nullable: true })
+  @Query(() => PermissionTestSuperuserResponse)
   async superUserRoleData() {
     return { message: 'Hey SuperUser, whats up!' };
   }
