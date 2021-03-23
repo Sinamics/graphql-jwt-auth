@@ -1,12 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Routes from './routes';
 
 // AUTH
 import { setAccessToken } from 'frontend/utils/accessToken';
 import './style.css';
-
-// @ts-ignore
 import config from 'config';
 
 const App: React.FC = (): JSX.Element => {

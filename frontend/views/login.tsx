@@ -19,7 +19,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit: React.ChangeEventHandler<HTMLFormElement> = async (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLElement> = async (e) => {
     e.preventDefault();
 
     await login({
@@ -38,21 +38,21 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
   };
 
   return (
-    <Grid padded centered columns={3} onSubmit={handleSubmit}>
+    <Grid padded centered columns={3}>
       <Divider clearing hidden />
       <Grid.Row>
         <Grid.Column>
-          <Message warning compact hidden={!loginError}>
+          <Message error warning compact hidden={!loginError}>
             <Message.Header>{loginError?.message}</Message.Header>
           </Message>
-          <Header color='teal' as='h1' content='Login page' subheader='JWT login' />
+          <Header color='teal' as='h1' content='Login' subheader='login returns jwt refresh token cookie' />
           <Divider clearing />
         </Grid.Column>
       </Grid.Row>
 
       <Grid.Row>
         <Grid.Column>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Field>
               <label>Username</label>
               <input onChange={handleChange} name='username' type='text' placeholder='Username' />
@@ -61,9 +61,6 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
               <label>Password</label>
               <input onChange={handleChange} name='password' type='password' placeholder='Password' />
             </Form.Field>
-            {/* <Form.Field>
-            <Checkbox label='I agree to the Terms and Conditions' />
-          </Form.Field> */}
             <Button disabled={loginLoading} type='submit'>
               Submit
             </Button>

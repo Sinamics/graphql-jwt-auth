@@ -1,8 +1,7 @@
-/* eslint-disable no-underscore-dangle */
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-
 import { useMeQuery } from 'frontend/graphql/generated/dist';
+import Spinner from 'frontend/components/spinner';
 
 interface PrivateRoute {
   component: React.FC;
@@ -15,7 +14,7 @@ const PrivateRoute: React.FC<PrivateRoute> = (props): JSX.Element => {
     fetchPolicy: 'network-only',
   });
 
-  if (loading) return <div className='d-flex justify-content-center'>Loading User privileges</div>;
+  if (loading) return <Spinner />;
   if (error) return <Redirect to={{ pathname: '/login' }} />;
 
   return me ? <Route path={props.path} exact={props.exact} component={props.component} /> : <Redirect to='/login' />;

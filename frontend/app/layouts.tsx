@@ -2,22 +2,14 @@
 import React, { Suspense } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { useMeQuery } from 'frontend/graphql/generated/dist';
-import { Dimmer, Loader } from 'semantic-ui-react';
+import Spinner from 'frontend/components/spinner';
 
 export const LayoutAuthenticated = withRouter((props: any): any => {
   // const { loading, data: { me = {} } = {} }: any = useMeQuery({ fetchPolicy: 'network-only' });
 
   // if (loading) return <div>Loading...</div>;
   return (
-    <Suspense
-      fallback={
-        <Dimmer page inverted active>
-          <Loader size='large' active inline='centered'>
-            Loading
-          </Loader>
-        </Dimmer>
-      }
-    >
+    <Suspense fallback={<Spinner />}>
       <div className='main'>{props.children}</div>
     </Suspense>
   );
@@ -41,15 +33,7 @@ export const LayoutPublic: React.ElementType<LayoutProps> = (props): JSX.Element
       />
     );
   return (
-    <Suspense
-      fallback={
-        <Dimmer page inverted active>
-          <Loader size='large' active inline='centered'>
-            Loading
-          </Loader>
-        </Dimmer>
-      }
-    >
+    <Suspense fallback={<Spinner />}>
       <div className='homepage'>{props.children}</div>
     </Suspense>
   );
@@ -57,15 +41,7 @@ export const LayoutPublic: React.ElementType<LayoutProps> = (props): JSX.Element
 
 export const LayoutAnonymous: React.ElementType<LayoutProps> = (props) => {
   return (
-    <Suspense
-      fallback={
-        <Dimmer page inverted active>
-          <Loader size='large' active inline='centered'>
-            Loading
-          </Loader>
-        </Dimmer>
-      }
-    >
+    <Suspense fallback={<Spinner />}>
       <div className='anonymous'>{props.children}</div>
     </Suspense>
   );

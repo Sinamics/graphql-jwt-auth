@@ -2,8 +2,6 @@
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useMeQuery } from 'frontend/graphql/generated/dist';
-
-// @ts-ignore
 import config from 'config';
 
 interface RouteProps {
