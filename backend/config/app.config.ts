@@ -15,7 +15,7 @@ class AppConfig {
   }
 
   includeConfig() {
-    this.app.use(helmet());
+    this.app.use(helmet({ contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false }));
     this.app.use(this.express.urlencoded({ extended: false }));
     this.app.use(this.express.json());
     this.app.use(cookieParser());
