@@ -1,14 +1,14 @@
 import React from 'react';
 import { useMeQuery, useSuperUserRoleDataQuery, useToggleSuperuserMutation, useUserRoleDataQuery } from 'frontend/graphql/generated/dist';
 import { setAccessToken } from '../utils/accessToken';
-
+import { History } from 'history';
 //@ts-ignore
 import { apiUrl } from 'config';
 
-interface props {
-  history: any;
+interface PageProps {
+  history: History;
 }
-const PrivatePage = ({ history }: props): React.ReactNode => {
+const PrivatePage = ({ history }: PageProps): React.ReactNode => {
   const { data: userdata, error: usererror } = useUserRoleDataQuery();
   const { data: superUserData, error: superUserError } = useSuperUserRoleDataQuery();
 
@@ -21,8 +21,7 @@ const PrivatePage = ({ history }: props): React.ReactNode => {
     await fetch(`${apiUrl}/logout`, {
       method: 'POST',
       credentials: 'include',
-    });
-    return history.push('login');
+    }).then(() => history.push('login'));
   };
 
   if (loading) return <div>Loading Me..</div>;
@@ -35,6 +34,7 @@ const PrivatePage = ({ history }: props): React.ReactNode => {
           className='btn btn-primary'
           onClick={() =>
             toggleSuperUser({ variables: { user: { id: me?.data?.id } } })
+              // TODO just for testing purpose.. :)
               .then(() => window.location.reload())
               .catch((err) => console.log(err))
           }
