@@ -44,3 +44,5 @@ DEV_MONGO_CONNECTION="mongodb://localhost/graphqljwtauth"
 5. run the project `npm start`
 
 This project uses graphql-codegen, and if you make any changes to the .graphql files you need to generate new hooks `npm run codegen`
+
+![privatePage](https://i.ibb.co/vDV8Hrj/privatepage.jpg)
