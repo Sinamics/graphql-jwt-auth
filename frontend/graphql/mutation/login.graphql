@@ -5,8 +5,6 @@ mutation login($loginData: UserInput!) {
       id
       username
       role
-      createdDate
-      lastseen
     }
   }
 }

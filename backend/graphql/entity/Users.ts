@@ -9,8 +9,8 @@ export enum UserRole {
 @ObjectType({ isAbstract: true })
 @Entity()
 export class User extends BaseEntity {
-  @ObjectIdColumn()
   @Field(() => ID)
+  @ObjectIdColumn()
   id: ObjectID;
 
   @Field()
@@ -21,17 +21,17 @@ export class User extends BaseEntity {
   @Column()
   hash: string;
 
-  @Column()
   @Field()
+  @Column()
   tokenVersion: string;
 
-  @Column()
   @Field()
+  @Column()
   createdDate: Date = new Date();
 
   @Field()
   @Column()
-  lastseen: Date;
+  lastseen: Date = new Date();
 
   @Field(() => [String], { nullable: false })
   @Column({

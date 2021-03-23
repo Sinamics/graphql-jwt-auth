@@ -100,7 +100,7 @@ export type LoginMutation = (
     & Pick<UserResponse, 'accessToken'>
     & { data?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'username' | 'role' | 'createdDate' | 'lastseen'>
+      & Pick<User, 'id' | 'username' | 'role'>
     )> }
   ) }
 );
@@ -193,8 +193,6 @@ export const LoginDocument = gql`
       id
       username
       role
-      createdDate
-      lastseen
     }
   }
 }
