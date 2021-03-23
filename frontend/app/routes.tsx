@@ -21,7 +21,7 @@ const anonymousRoutes = [
     key: 'notfound',
     path: '*',
     component: PageNotFound,
-    exact: false, // important, Admin is just a new Router switch container
+    exact: false,
   },
 ];
 
