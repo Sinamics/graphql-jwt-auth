@@ -4,13 +4,13 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { useMeQuery } from 'frontend/graphql/generated/dist';
 
-interface PrivateRouteProps {
+interface PrivateRoute {
   component: React.FC;
   path: string;
   exact: boolean;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = (props): JSX.Element => {
+const PrivateRoute: React.FC<PrivateRoute> = (props): JSX.Element => {
   const { loading, error, data: { me } = { me: null } } = useMeQuery({
     fetchPolicy: 'network-only',
   });

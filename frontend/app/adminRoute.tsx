@@ -6,12 +6,12 @@ import { useMeQuery } from 'frontend/graphql/generated/dist';
 // @ts-ignore
 import config from 'config';
 
-interface props {
+interface RouteProps {
   component: React.ElementType;
   path: string;
 }
 
-const AdminRoute: React.FC<{ component: React.FC<props>; path: string; exact: boolean }> = (props): JSX.Element => {
+const AdminRoute: React.FC<{ component: React.FC<RouteProps>; path: string; exact: boolean }> = (props): JSX.Element => {
   const { loading, error, data: { me } = { me: null } } = useMeQuery({
     fetchPolicy: 'network-only',
   });
