@@ -3,15 +3,12 @@ import React, { useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { useRegisterMutation } from '../graphql/generated/dist';
 
-interface Props {
-  history: any;
-}
-interface stateProps {
+interface StateProps {
   username: string;
   password: string;
 }
-const SignUp: React.FC<RouteComponentProps> = ({ history }: Props) => {
-  const [user, setUser] = useState<stateProps>({
+const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
+  const [user, setUser] = useState<StateProps>({
     username: '',
     password: '',
   });

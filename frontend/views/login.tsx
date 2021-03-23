@@ -3,13 +3,13 @@ import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { setAccessToken } from '../utils/accessToken';
 import { useLoginMutation } from '../graphql/generated/dist';
 
-interface stateProps {
+interface StateProps {
   username: string;
   password: string;
 }
 
 const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
-  const [user, setUser] = useState<stateProps>({ username: '', password: '' });
+  const [user, setUser] = useState<StateProps>({ username: '', password: '' });
 
   const [login, { error: loginError, loading: loginLoading }] = useLoginMutation({ errorPolicy: 'all' });
 
