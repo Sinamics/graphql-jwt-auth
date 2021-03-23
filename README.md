@@ -1,4 +1,25 @@
-## GraphQl Mongoose Jwt Typeorm Boilerplate
+# GraphQl Mongoose Jwt Typeorm Boilerplate
+
+## Description
+
+- Boiler plate project for
+  - type-graphql(express)
+  - typescript
+  - typeorm
+  - mongodb
+  - JWT
+
+## Features
+
+- [x] Express Server (port 4000)
+- [x] type-Graphql Entry Point (/graphql)
+- [x] Graphql Playground Page (/playground)
+- [x] Typeorm Settings For MongoDB
+- [x] Typeorm Decorators for hasRole (@hasRole(roles: [user, superuser]))
+- [x] Basic User Entity (backend/graphql/entity/Users.ts)
+- [x] JasonWebToken (JWT) accessToken / refreshToken cookie for authorization.
+- [x] username Sign Up
+- [x] username Sign In
 
 1. Install mongodb on your computer
 2. Install `npm i typescript concurrently ts-node-dev -g`
