@@ -46,4 +46,10 @@ DEV_MONGO_CONNECTION="mongodb://localhost/graphqljwtauth"
 
 This project uses graphql-codegen, and if you make any changes to the .graphql files you need to generate new hooks `npm run codegen`
 
+## Login / Register Page
+
+![privatePage](https://i.ibb.co/XLBP9mp/register.jpg)
+
+## Simple privatePage for testing role decorators
+
 ![privatePage](https://i.ibb.co/8XNV0R7/privatepage.jpg)
