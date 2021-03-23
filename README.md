@@ -4,6 +4,7 @@
 
 - Boiler plate project for
   - type-graphql(express)
+  - graphql-codegen
   - typescript
   - typeorm
   - mongodb
