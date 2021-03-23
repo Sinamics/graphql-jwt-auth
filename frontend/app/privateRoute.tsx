@@ -10,9 +10,7 @@ interface PrivateRoute {
 }
 
 const PrivateRoute: React.FC<PrivateRoute> = (props): JSX.Element => {
-  const { loading, error, data: { me } = { me: null } } = useMeQuery({
-    fetchPolicy: 'network-only',
-  });
+  const { loading, error, data: { me } = { me: null } } = useMeQuery();
 
   if (loading) return <Spinner />;
   if (error) return <Redirect to={{ pathname: '/login' }} />;
