@@ -35,7 +35,7 @@ export class authResolvers {
   }
 
   @Mutation(() => UserResponse)
-  async login(@Ctx() ctx: any, @Arg('loginData') { username, password }: UserInput): Promise<any> {
+  async login(@Ctx() ctx: any, @Arg('loginData') { username, password }: UserInput): Promise<UserResponse | AuthenticationError> {
     try {
       const user = await User.findOne({ username });
 
@@ -58,7 +58,7 @@ export class authResolvers {
   }
 
   @Mutation(() => UserResponse)
-  async register(@Arg('registerData') { username, password }: UserInput): Promise<any> {
+  async register(@Arg('registerData') { username, password }: UserInput): Promise<UserResponse | AuthenticationError> {
     // username validation
     if (!username) return new AuthenticationError(`username required!`);
     if (username.length <= 3) return new AuthenticationError(`username must be more than 3 characters!`);
