@@ -3,7 +3,7 @@ import { Resolver, Mutation, Query, Ctx, Arg, Directive } from 'type-graphql';
 import { User, UserRole } from '../entity/Users';
 import { ToggleSuperuserInput, UserInput } from '../input-types/auth-input';
 import { PermissionTestSuperuserResponse, PermissionTestUserResponse, UserResponse } from '../response-types/auth-response';
-import isAuthenticated from '../../middleware/authorization/user.is.authenticated';
+import isAuthenticated from '../../jwt/user.is.authenticated';
 import bcrypt from 'bcryptjs';
 import { createAccessToken, createRefreshToken, sendRefreshToken } from '../../jwt/validate.token';
 import { nameLength } from '../../_helpers/name-validation';

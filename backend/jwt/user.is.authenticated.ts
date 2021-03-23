@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { AuthenticationError } from 'apollo-server-express';
-import { User } from '../../graphql/entity/Users';
+import { User } from '../graphql/entity/Users';
 
 interface TokenPayload {
   id: string;
