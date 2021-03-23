@@ -13,7 +13,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
 
   const [login, { error: loginError, loading: loginLoading }] = useLoginMutation({ errorPolicy: 'all' });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
@@ -44,7 +44,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
         <div id='login-row' className='row justify-content-center align-items-center'>
           <div id='login-column' className='col-md-6'>
             <div id='login-box' className='col-md-12'>
-              <form className='form' onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit}>
                 <h3 className='text-center text-info'>Login</h3>
                 <div className='text-danger d-flex justify-content-center'>{loginError?.message}</div>
                 <div className='form-group'>
@@ -52,14 +52,14 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
                     Username:
                   </label>
                   <br />
-                  <input tabIndex={1} onChange={handleChange} type='text' name='username' className='form-control' />
+                  <input required tabIndex={1} onChange={handleChange} type='text' name='username' className='form-control' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='password' className='text-info'>
                     Password:
                   </label>
                   <br />
-                  <input tabIndex={2} onChange={handleChange} type='password' name='password' className='form-control' />
+                  <input required tabIndex={2} onChange={handleChange} type='password' name='password' className='form-control' />
                 </div>
                 <div className='form-group'>
                   <br />
