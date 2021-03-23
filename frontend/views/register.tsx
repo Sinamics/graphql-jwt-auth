@@ -15,8 +15,8 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
 
   const [register, { error: registerError, loading: registerLoading }] = useRegisterMutation({ errorPolicy: 'all' });
 
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
     setUser({
       ...user,
@@ -24,9 +24,9 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
     });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit: React.ChangeEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    register({ variables: { registerData: { ...user } } })
+    await register({ variables: { registerData: { ...user } } })
       .then(({ errors }) => {
         if (errors?.length) return;
         history.push('login');

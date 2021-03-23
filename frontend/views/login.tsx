@@ -18,7 +18,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit: any = async (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit: React.ChangeEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     await login({
