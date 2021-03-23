@@ -38,7 +38,6 @@ const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
             color='teal'
             onClick={() =>
               toggleSuperUser({ variables: { user: { id: me?.data?.id } } })
-                // TODO just for testing purpose.. :)
                 .then(() => refetch())
                 .catch((err) => console.log(err))
             }
