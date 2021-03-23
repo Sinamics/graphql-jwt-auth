@@ -8,11 +8,14 @@ import Spinner from 'frontend/components/spinner';
 
 const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
   const { data: userdata, error: usererror, loading: userDataLoading } = useUserRoleDataQuery();
-  const { data: superUserData, error: superUserError, loading: superuserDataLoading } = useSuperUserRoleDataQuery();
+  const { data: superUserData, error: superUserError, loading: superuserDataLoading, refetch } = useSuperUserRoleDataQuery({
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  });
 
   const [toggleSuperUser] = useToggleSuperuserMutation();
 
-  const { error, data: { me } = { me: Object } }: any = useMeQuery();
+  const { error: meError, data: { me } = { me: Object } }: any = useMeQuery();
 
   const LogOut = async () => {
     setAccessToken('');
@@ -26,7 +29,7 @@ const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
     <Grid padded columns={16} centered>
       <Grid.Column>
         {/* If any errors fetching Me Object  */}
-        <Message error hidden={!error} header={error?.message} />
+        <Message error hidden={!meError} header={meError?.message} />
       </Grid.Column>
       <Divider clearing hidden />
       <Grid.Row columns={4}>
@@ -36,7 +39,7 @@ const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
             onClick={() =>
               toggleSuperUser({ variables: { user: { id: me?.data?.id } } })
                 // TODO just for testing purpose.. :)
-                .then(() => window.location.reload())
+                .then(() => refetch())
                 .catch((err) => console.log(err))
             }
           >

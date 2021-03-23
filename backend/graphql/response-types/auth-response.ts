@@ -1,4 +1,4 @@
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, ID } from 'type-graphql';
 import { FieldError } from './field-error';
 import { User } from '../entity/Users';
 
@@ -16,7 +16,7 @@ export class UserResponse {
 
 @ObjectType()
 export class PermissionTestUserResponse {
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   message: String;
 
   @Field(() => [FieldError], { nullable: true })
@@ -25,7 +25,7 @@ export class PermissionTestUserResponse {
 
 @ObjectType()
 export class PermissionTestSuperuserResponse {
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   message: String;
 
   @Field(() => [FieldError], { nullable: true })

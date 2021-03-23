@@ -47,13 +47,13 @@ export type FieldError = {
 
 export type PermissionTestUserResponse = {
   __typename?: 'PermissionTestUserResponse';
-  message?: Maybe<Scalars['String']>;
+  message: Scalars['String'];
   errors?: Maybe<Array<FieldError>>;
 };
 
 export type PermissionTestSuperuserResponse = {
   __typename?: 'PermissionTestSuperuserResponse';
-  message?: Maybe<Scalars['String']>;
+  message: Scalars['String'];
   errors?: Maybe<Array<FieldError>>;
 };
 
