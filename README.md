@@ -21,6 +21,8 @@
 - [x] username Sign Up
 - [x] username Sign In
 
+## Usage
+
 1. Install mongodb on your computer
 2. Install `npm i typescript concurrently ts-node-dev -g`
 3. Install dependencies `npm i`
