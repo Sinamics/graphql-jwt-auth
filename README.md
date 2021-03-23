@@ -3,7 +3,8 @@
 ## Description
 
 - Boiler plate project for
-  - type-graphql(express)
+  - apollo-server-express
+  - type-graphql
   - graphql-codegen
   - typescript
   - typeorm
