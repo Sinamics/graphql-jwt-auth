@@ -9,9 +9,10 @@ interface LayoutProps {
 }
 
 export const LayoutAuthenticated: React.ElementType<LayoutProps> = (props): JSX.Element => {
-  // const { loading, data: { me = {} } = {} }: any = useMeQuery({ fetchPolicy: 'network-only' });
+  // Load Me object with network-only so we update the cache if the users log-out and in with another user account!.
+  const { loading } = useMeQuery({ fetchPolicy: 'network-only' });
+  if (loading) return <Spinner />;
 
-  // if (loading) return <div>Loading...</div>;
   return (
     <Suspense fallback={<Spinner />}>
       <div className='main'>{props.children}</div>
@@ -20,8 +21,9 @@ export const LayoutAuthenticated: React.ElementType<LayoutProps> = (props): JSX.
 };
 
 export const LayoutPublic: React.ElementType<LayoutProps> = (props): JSX.Element => {
+  // Load Me object with network-only if user has a valid refreshToken / cookie in browser.
   const { loading, data: { me = null } = {} }: any = useMeQuery({ fetchPolicy: 'network-only' });
-  if (loading) return <div>Loading Me...</div>;
+  if (loading) return <Spinner />;
 
   // If a valid refresh token is present, the ME oject is available, hence rute the user directly to privateroute.
   if (me)
