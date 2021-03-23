@@ -14,7 +14,11 @@ export const LayoutAuthenticated = withRouter((props: any): any => {
   );
 });
 
-export const LayoutPublic: React.FC<any> = (props: any): JSX.Element => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+export const LayoutPublic: React.ElementType<LayoutProps> = (props): JSX.Element => {
   const { loading, data: { me = null } = {} }: any = useMeQuery({ fetchPolicy: 'network-only' });
   if (loading) return <div>Loading Me...</div>;
 
@@ -34,6 +38,6 @@ export const LayoutPublic: React.FC<any> = (props: any): JSX.Element => {
   );
 };
 
-export const LayoutAnonymous: React.FC<{}> = (props) => {
+export const LayoutAnonymous: React.ElementType<LayoutProps> = (props) => {
   return <div>{props.children}</div>;
 };
