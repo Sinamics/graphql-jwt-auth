@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
 import { setAccessToken } from '../utils/accessToken';
 import { useLoginMutation } from '../graphql/generated/dist';
+import { Button, Divider, Form, Grid, Header, Label, Message } from 'semantic-ui-react';
 
 interface StateProps {
   username: string;
@@ -13,7 +14,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
 
   const [login, { error: loginError, loading: loginLoading }] = useLoginMutation({ errorPolicy: 'all' });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
@@ -36,46 +37,45 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
       .catch((err) => console.error(err));
   };
 
-  if (loginLoading) return <div>Loading...</div>;
   return (
-    <div>
-      <h3 className='text-center text-white pt-5'>Login form</h3>
-      <div className='container'>
-        <div id='login-row' className='row justify-content-center align-items-center'>
-          <div id='login-column' className='col-md-6'>
-            <div id='login-box' className='col-md-12'>
-              <form onSubmit={handleSubmit}>
-                <h3 className='text-center text-info'>Login</h3>
-                <div className='text-danger d-flex justify-content-center'>{loginError?.message}</div>
-                <div className='form-group'>
-                  <label htmlFor='username' className='text-info'>
-                    Username:
-                  </label>
-                  <br />
-                  <input required tabIndex={1} onChange={handleChange} type='text' name='username' className='form-control' />
-                </div>
-                <div className='form-group'>
-                  <label htmlFor='password' className='text-info'>
-                    Password:
-                  </label>
-                  <br />
-                  <input required tabIndex={2} onChange={handleChange} type='password' name='password' className='form-control' />
-                </div>
-                <div className='form-group'>
-                  <br />
-                  <button type='submit' tabIndex={3} className='btn btn-info btn-md'>
-                    Login
-                  </button>
-                </div>
-                <div id='register-link' className='text-right'>
-                  <Link to='register'>Register</Link>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Grid padded centered columns={3} onSubmit={handleSubmit}>
+      <Divider clearing hidden />
+      <Grid.Row>
+        <Grid.Column>
+          <Message warning compact hidden={!loginError}>
+            <Message.Header>{loginError?.message}</Message.Header>
+          </Message>
+          <Header color='teal' as='h1' content='Login page' subheader='JWT login' />
+          <Divider clearing />
+        </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
+        <Grid.Column>
+          <Form>
+            <Form.Field>
+              <label>Username</label>
+              <input onChange={handleChange} name='username' type='text' placeholder='Username' />
+            </Form.Field>
+            <Form.Field>
+              <label>Password</label>
+              <input onChange={handleChange} name='password' type='password' placeholder='Password' />
+            </Form.Field>
+            {/* <Form.Field>
+            <Checkbox label='I agree to the Terms and Conditions' />
+          </Form.Field> */}
+            <Button disabled={loginLoading} type='submit'>
+              Submit
+            </Button>
+            <Link to='register'>
+              <Label color='teal' ribbon='right' className='text-right'>
+                Register
+              </Label>
+            </Link>
+          </Form>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
   );
 };
 

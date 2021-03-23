@@ -8,8 +8,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './utils/apolloLink';
 
+// Semantic UI React
+import 'semantic-ui-css/semantic.min.css';
+
 // Bootstrap
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Import Main styles for this application
 import './scss/style.scss';

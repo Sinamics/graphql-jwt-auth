@@ -1,20 +1,18 @@
 import React from 'react';
 import { useMeQuery, useSuperUserRoleDataQuery, useToggleSuperuserMutation, useUserRoleDataQuery } from 'frontend/graphql/generated/dist';
 import { setAccessToken } from '../utils/accessToken';
-import { History } from 'history';
+import { RouteComponentProps } from 'react-router';
+
 //@ts-ignore
 import { apiUrl } from 'config';
 
-interface PageProps {
-  history: History;
-}
-const PrivatePage = ({ history }: PageProps): React.ReactNode => {
+const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
   const { data: userdata, error: usererror } = useUserRoleDataQuery();
   const { data: superUserData, error: superUserError } = useSuperUserRoleDataQuery();
 
   const [toggleSuperUser] = useToggleSuperuserMutation();
 
-  const { loading, error, data: { me } = { me: Object } }: any = useMeQuery();
+  const { error, data: { me } = { me: Object } }: any = useMeQuery();
 
   const LogOut = async () => {
     setAccessToken('');
@@ -24,8 +22,7 @@ const PrivatePage = ({ history }: PageProps): React.ReactNode => {
     }).then(() => history.push('login'));
   };
 
-  if (loading) return <div>Loading Me..</div>;
-  if (error) return <div>{error.message}</div>;
+  if (error) return <div className='text-danger d-flex justify-content-center'>{error.message}</div>;
 
   return (
     <div className='container'>

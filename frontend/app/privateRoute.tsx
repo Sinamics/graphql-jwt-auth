@@ -15,7 +15,7 @@ const PrivateRoute: React.FC<PrivateRoute> = (props): JSX.Element => {
     fetchPolicy: 'network-only',
   });
 
-  if (loading) return <div>Loading User privileges</div>;
+  if (loading) return <div className='d-flex justify-content-center'>Loading User privileges</div>;
   if (error) return <Redirect to={{ pathname: '/login' }} />;
 
   return me ? <Route path={props.path} exact={props.exact} component={props.component} /> : <Redirect to='/login' />;

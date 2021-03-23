@@ -1,4 +1,4 @@
-import { ApolloError, AuthenticationError } from 'apollo-server-express';
+import { AuthenticationError } from 'apollo-server-express';
 import { Resolver, Mutation, Query, Ctx, Arg, Directive } from 'type-graphql';
 import { User, UserRole } from '../entity/Users';
 import { ToggleSuperuserInput, UserInput } from '../input-types/auth-input';
@@ -36,6 +36,7 @@ export class authResolvers {
 
   @Mutation(() => UserResponse)
   async login(@Ctx() ctx: any, @Arg('loginData') { username, password }: UserInput): Promise<UserResponse | AuthenticationError> {
+    if (!username || !password) return new AuthenticationError(`username & password is required!`);
     try {
       const user = await User.findOne({ username });
 
@@ -53,14 +54,14 @@ export class authResolvers {
         data: user,
       };
     } catch (error) {
-      throw new ApolloError(error);
+      throw new AuthenticationError(error);
     }
   }
 
   @Mutation(() => UserResponse)
   async register(@Arg('registerData') { username, password }: UserInput): Promise<UserResponse | AuthenticationError> {
     // username validation
-    if (!username) return new AuthenticationError(`username required!`);
+    if (!username || !password) return new AuthenticationError(`username & password is required!`);
     if (username.length <= 3) return new AuthenticationError(`username must be more than 3 characters!`);
     if (nameLength(username, 30)) return new AuthenticationError(`Max 30 char in username`);
 

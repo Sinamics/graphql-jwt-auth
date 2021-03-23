@@ -3,18 +3,20 @@ import React from 'react';
 
 import { Switch, Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
 
-// Public Views
-import PageNotFound from 'frontend/views/pageNotFound';
-import PageLogin from 'frontend/views/login';
-import Register from 'frontend/views/register';
+// Layouts
+import { LayoutAnonymous, LayoutAuthenticated, LayoutPublic } from './layouts';
 
 // Authorized views
-import PrivatePage from 'frontend/views/privatePage';
+const PrivatePage = React.lazy(() => import('frontend/views/privatePage'));
 
 // AUTH
-import PrivateRoute from './privateRoute';
-import { LayoutAnonymous, LayoutAuthenticated, LayoutPublic } from './layouts';
-import LandingPage from 'frontend/views/landingPage';
+const PrivateRoute = React.lazy(() => import('./privateRoute'));
+const LandingPage = React.lazy(() => import('frontend/views/landingPage'));
+
+// Public Views
+const PageLogin = React.lazy(() => import('frontend/views/login'));
+const Register = React.lazy(() => import('frontend/views/register'));
+const PageNotFound = React.lazy(() => import('frontend/views/pageNotFound'));
 
 const anonymousRoutes = [
   {
