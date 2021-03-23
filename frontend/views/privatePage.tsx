@@ -4,6 +4,7 @@ import { setAccessToken } from '../utils/accessToken';
 import { RouteComponentProps } from 'react-router';
 import { Button, Divider, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import { apiUrl } from 'config';
+import Spinner from 'frontend/components/spinner';
 
 const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
   const { data: userdata, error: usererror, loading: userDataLoading } = useUserRoleDataQuery();
@@ -21,15 +22,12 @@ const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
     }).then(() => history.push('login'));
   };
 
-  if (error) return <div className='text-danger d-flex justify-content-center'>{error.message}</div>;
-  if (userDataLoading || superuserDataLoading)
-    return (
-      <Grid style={{ paddingTop: 50 }} padded columns={4} centered>
-        Loading..
-      </Grid>
-    );
   return (
     <Grid padded columns={16} centered>
+      <Grid.Column>
+        {/* If any errors fetching Me Object  */}
+        <Message error hidden={!error} header={error?.message} />
+      </Grid.Column>
       <Divider clearing hidden />
       <Grid.Row columns={4}>
         <Grid.Column textAlign='left'>
@@ -62,6 +60,7 @@ const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
         <Grid.Column>
           <Segment>
             <Header content='Admin Data' />
+            {userDataLoading && <Spinner />}
             <Message info hidden={!superUserData} header={superUserData?.superUserRoleData?.message} />
             <Message error hidden={!superUserError} header={superUserError?.message} />
           </Segment>
@@ -70,6 +69,7 @@ const PrivatePage: React.FC<RouteComponentProps> = ({ history }) => {
         <Grid.Column>
           <Segment>
             <Header content='User Data' />
+            {superuserDataLoading && <Spinner />}
             <Message info hidden={!userdata} header={userdata?.userRoleData?.message} />
             <Message error hidden={!usererror} header={usererror?.message} />
           </Segment>
