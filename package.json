@@ -64,6 +64,7 @@
     "postcss-normalize": "8.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
+    "postcss-scss": "^3.0.5",
     "react": "^17.0.2",
     "react-app-polyfill": "^1.0.6",
     "react-dev-utils": "^10.2.1",
@@ -75,8 +76,6 @@
     "react-text-loop": "^2.3.0",
     "resolve-url-loader": "3.1.1",
     "save-dev": "0.0.1-security",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^2.0.3",
     "subscriptions-transport-ws": "^0.9.18",
     "terser-webpack-plugin": "2.3.8",
     "ts-pnp": "1.1.6",
@@ -98,7 +97,8 @@
     "server": "ts-node-dev --respawn --transpile-only backend/index.ts",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "build:css": "postcss frontend/tailwind.scss -o frontend/tailwind-output.css"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -124,12 +124,16 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/graphql-iso-date": "^3.4.0",
     "@types/mongoose": "^5.10.4",
+    "autoprefixer": "^10.2.5",
     "css-loader": "^3.4.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
+    "postcss": "^8.2.8",
+    "postcss-cli": "^8.3.1",
     "prettier": "2.1.2",
     "sass-loader": "^8.0.2",
-    "style-loader": "^0.23.1"
+    "style-loader": "^0.23.1",
+    "tailwindcss": "^2.0.4"
   },
   "jest": {
     "roots": [

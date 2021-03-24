@@ -8,11 +8,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './utils/apolloLink';
 
-// Semantic UI React
-import 'semantic-ui-css/semantic.min.css';
-
 // Import Main styles for this application
 import './scss/style.scss';
+import './tailwind-output.css';
 
 const MOUNT_NODE = document.getElementById('root');
 
