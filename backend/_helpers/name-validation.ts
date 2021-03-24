@@ -15,3 +15,5 @@ export const nameLength = (string: string, length: number) => {
   }
   return false;
 };
+
+export const mediumPassword = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})');

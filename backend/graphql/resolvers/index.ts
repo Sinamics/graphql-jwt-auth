@@ -7,8 +7,7 @@ import isAuthenticated from '../../jwt/user.is.authenticated';
 import bcrypt from 'bcryptjs';
 import { createAccessToken, createRefreshToken, sendRefreshToken } from '../../jwt/validate.token';
 import validator from 'validator';
-
-const mediumPassword = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})');
+import { mediumPassword } from '../../_helpers/name-validation';
 
 export interface MyContext {
   req: Request;
