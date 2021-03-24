@@ -1,3 +1,4 @@
+import { toErrorMap } from 'frontend/utils/errorMap';
 import React, { useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Divider, Form, Grid, Header, Label, Message } from 'semantic-ui-react';
@@ -13,7 +14,7 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
     password: '',
   });
 
-  const [register, { error: registerError, loading: registerLoading }] = useRegisterMutation({ errorPolicy: 'all' });
+  const [userSignUp, { loading: registerLoading, data }] = useRegisterMutation({ errorPolicy: 'all' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,9 +27,10 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
 
   const handleSubmit: React.FormEventHandler<HTMLElement> = async (e) => {
     e.preventDefault();
-    await register({ variables: { registerData: { ...user } } })
-      .then(({ errors }) => {
-        if (errors?.length) return;
+    await userSignUp({ variables: { registerData: { ...user } } })
+      .then(({ data }) => {
+        if (data?.register.errors?.length) return;
+
         history.push('login');
       })
       .catch((err) => console.error(err));
@@ -39,9 +41,6 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
       <Divider clearing hidden />
       <Grid.Row>
         <Grid.Column>
-          <Message error warning compact hidden={!registerError}>
-            <Message.Header>{registerError?.message}</Message.Header>
-          </Message>
           <Header color='teal' as='h1' content='Register' subheader='successfull registration will push you to login page' />
           <Divider clearing />
         </Grid.Column>
@@ -50,10 +49,8 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
       <Grid.Row>
         <Grid.Column>
           <Form onSubmit={handleSubmit}>
-            <Form.Field>
-              <label>Username</label>
-              <input onChange={handleChange} name='username' type='text' placeholder='Username' />
-            </Form.Field>
+            <Form.Input label='Username' onChange={handleChange} name='username' type='text' placeholder='Username' />
+
             <Form.Field>
               <label>Password</label>
               <input onChange={handleChange} name='password' type='password' placeholder='Password' />
@@ -67,6 +64,7 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
               </Label>
             </Link>
           </Form>
+          <Message error warning hidden={!data?.register.errors} list={toErrorMap(data?.register.errors || [])} />
         </Grid.Column>
       </Grid.Row>
     </Grid>

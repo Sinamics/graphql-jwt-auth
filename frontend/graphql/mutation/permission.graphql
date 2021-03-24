@@ -5,6 +5,7 @@ mutation toggleSuperuser($user: ToggleSuperuserInput!) {
       role
     }
     errors {
+      field
       message
     }
   }

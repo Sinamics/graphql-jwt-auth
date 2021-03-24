@@ -6,5 +6,9 @@ mutation login($loginData: UserInput!) {
       username
       role
     }
+    errors {
+      message
+      field
+    }
   }
 }

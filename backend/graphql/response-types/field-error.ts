@@ -2,9 +2,9 @@ import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export class FieldError {
-  @Field({ nullable: true })
-  path?: string;
+  @Field()
+  field: string;
 
-  @Field({ nullable: true })
-  message?: string;
+  @Field()
+  message: string;
 }

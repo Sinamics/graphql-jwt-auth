@@ -6,7 +6,7 @@ import { PermissionTestSuperuserResponse, PermissionTestUserResponse, UserRespon
 import isAuthenticated from '../../jwt/user.is.authenticated';
 import bcrypt from 'bcryptjs';
 import { createAccessToken, createRefreshToken, sendRefreshToken } from '../../jwt/validate.token';
-import { nameLength } from '../../_helpers/name-validation';
+import validator from 'validator';
 
 const mediumPassword = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})');
 
@@ -36,14 +36,23 @@ export class authResolvers {
 
   @Mutation(() => UserResponse)
   async login(@Ctx() ctx: any, @Arg('loginData') { username, password }: UserInput): Promise<UserResponse | AuthenticationError> {
-    if (!username || !password) return new AuthenticationError(`username & password is required!`);
+    const errors = [];
+
     try {
+      if (validator.isEmpty(username)) {
+        throw errors.push({ field: 'username', message: 'Must not be empty.' });
+      }
+
+      if (validator.isEmpty(password)) {
+        throw errors.push({ field: 'password', message: 'Must not be empty.' });
+      }
+
       const user = await User.findOne({ username });
 
-      if (!user) throw new AuthenticationError('username or password is wrong!');
+      if (!user) throw errors.push({ field: 'Account', message: 'User does not exsist!' });
 
       const valid = bcrypt.compareSync(password, user.hash);
-      if (!valid) throw new AuthenticationError('username or password is wrong!');
+      if (!valid) throw errors.push({ field: 'Account', message: 'Username or Password is wrong!' });
 
       // Send refresh token as cookie header
       sendRefreshToken(ctx?.res, createRefreshToken(user));
@@ -53,32 +62,42 @@ export class authResolvers {
         accessToken: createAccessToken(user),
         data: user,
       };
-    } catch (error) {
-      throw new AuthenticationError(error);
+    } catch (err) {
+      return { errors };
     }
   }
 
   @Mutation(() => UserResponse)
-  async register(@Arg('registerData') { username, password }: UserInput): Promise<UserResponse | AuthenticationError> {
-    // username validation
-    if (!username || !password) return new AuthenticationError(`username & password is required!`);
-    if (username.length <= 3) return new AuthenticationError(`username must be more than 3 characters!`);
-    if (nameLength(username, 30)) return new AuthenticationError(`Max 30 char in username`);
+  async register(@Arg('registerData') { username, password }: UserInput): Promise<any> {
+    const errors = [];
+    try {
+      // username validation
+      if (validator.isEmpty(username)) {
+        throw errors.push({ field: 'username', message: 'Must not be empty.' });
+      } else if (!validator.isLength(username, { max: 30 })) {
+        throw errors.push({ field: 'username', message: 'Must be at a maximum 30 characters long.' });
+      } else if (!validator.isLength(username, { min: 3 })) {
+        throw errors.push({ field: 'username', message: 'Must be at least 3 characters long.' });
+      }
 
-    if (await User.findOne({ username })) {
-      // eslint-disable-next-line no-throw-literal
-      throw new AuthenticationError(`username "${username}" already taken`);
-    }
+      // password validation
+      if (validator.isEmpty(password)) {
+        throw errors.push({ field: 'password', message: 'The password must not be empty.' });
+      } else if (!mediumPassword.test(password)) {
+        throw errors.push({ field: 'password', message: 'Must include 6 char, with upper and lowercase' });
+      }
 
-    const user = await User.create({ username });
+      if (await User.findOne({ username })) {
+        throw errors.push({ field: 'Account', message: `username "${username}" already taken` });
+      }
 
-    if (password) {
-      if (!mediumPassword.test(password)) return new AuthenticationError(`Password does not meet the requirements!`);
-      // Valid Password, lets hash it
+      const user = await User.create({ username });
       user.hash = bcrypt.hashSync(password, 10);
-    }
 
-    return { data: await user.save() };
+      return { data: user };
+    } catch (err) {
+      return { errors };
+    }
   }
 
   @Mutation(() => UserResponse)

@@ -3,6 +3,7 @@ import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
 import { setAccessToken } from '../utils/accessToken';
 import { useLoginMutation } from '../graphql/generated/dist';
 import { Button, Divider, Form, Grid, Header, Label, Message } from 'semantic-ui-react';
+import { toErrorMap } from 'frontend/utils/errorMap';
 
 interface StateProps {
   username: string;
@@ -12,7 +13,7 @@ interface StateProps {
 const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
   const [user, setUser] = useState<StateProps>({ username: '', password: '' });
 
-  const [login, { error: loginError, loading: loginLoading }] = useLoginMutation({ errorPolicy: 'all' });
+  const [login, { error: loginError, loading: loginLoading, data: loginResponse }] = useLoginMutation({ errorPolicy: 'all' });
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
     const { name, value } = e.target;
@@ -25,8 +26,8 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
     await login({
       variables: { loginData: { ...user } },
     })
-      .then(({ errors, data }) => {
-        if (errors) return;
+      .then(({ data }) => {
+        if (data?.login.errors?.length) return;
 
         if (data && data.login) {
           setAccessToken(data.login.accessToken).then(() => {
@@ -36,7 +37,6 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
       })
       .catch((err) => console.error(err));
   };
-
   return (
     <Grid padded centered columns={3}>
       <Divider clearing hidden />
@@ -70,6 +70,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
               </Label>
             </Link>
           </Form>
+          <Message error warning hidden={!loginResponse?.login.errors} list={toErrorMap(loginResponse?.login.errors || [])} />
         </Grid.Column>
       </Grid.Row>
     </Grid>

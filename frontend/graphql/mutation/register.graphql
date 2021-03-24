@@ -3,5 +3,9 @@ mutation register($registerData: UserInput!) {
     data {
       username
     }
+    errors {
+      field
+      message
+    }
   }
 }

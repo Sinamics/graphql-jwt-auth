@@ -41,8 +41,8 @@ export type User = {
 
 export type FieldError = {
   __typename?: 'FieldError';
-  path?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type PermissionTestUserResponse = {
@@ -101,7 +101,10 @@ export type LoginMutation = (
     & { data?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'username' | 'role'>
-    )> }
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'message' | 'field'>
+    )>> }
   ) }
 );
 
@@ -119,7 +122,7 @@ export type ToggleSuperuserMutation = (
       & Pick<User, 'id' | 'role'>
     )>, errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
-      & Pick<FieldError, 'message'>
+      & Pick<FieldError, 'field' | 'message'>
     )>> }
   ) }
 );
@@ -136,7 +139,10 @@ export type RegisterMutation = (
     & { data?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'username'>
-    )> }
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
   ) }
 );
 
@@ -164,7 +170,7 @@ export type UserRoleDataQuery = (
     & Pick<PermissionTestUserResponse, 'message'>
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
-      & Pick<FieldError, 'message'>
+      & Pick<FieldError, 'field' | 'message'>
     )>> }
   ) }
 );
@@ -179,7 +185,7 @@ export type SuperUserRoleDataQuery = (
     & Pick<PermissionTestSuperuserResponse, 'message'>
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
-      & Pick<FieldError, 'message'>
+      & Pick<FieldError, 'field' | 'message'>
     )>> }
   ) }
 );
@@ -193,6 +199,10 @@ export const LoginDocument = gql`
       id
       username
       role
+    }
+    errors {
+      message
+      field
     }
   }
 }
@@ -230,6 +240,7 @@ export const ToggleSuperuserDocument = gql`
       role
     }
     errors {
+      field
       message
     }
   }
@@ -265,6 +276,10 @@ export const RegisterDocument = gql`
   register(registerData: $registerData) {
     data {
       username
+    }
+    errors {
+      field
+      message
     }
   }
 }
@@ -337,6 +352,7 @@ export const UserRoleDataDocument = gql`
   userRoleData {
     message
     errors {
+      field
       message
     }
   }
@@ -372,6 +388,7 @@ export const SuperUserRoleDataDocument = gql`
   superUserRoleData {
     message
     errors {
+      field
       message
     }
   }
