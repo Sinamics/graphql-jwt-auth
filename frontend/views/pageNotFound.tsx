@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './style.css';
+
 function NotFound() {
   return (
     <div id='not-found-container'>

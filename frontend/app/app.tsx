@@ -3,7 +3,8 @@ import Routes from './routes';
 
 // AUTH
 import { setAccessToken } from 'frontend/utils/accessToken';
-import './style.css';
+
+// Config
 import config from 'config';
 
 const App: React.FC = (): JSX.Element => {
