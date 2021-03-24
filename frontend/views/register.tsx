@@ -14,7 +14,7 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
     password: '',
   });
 
-  const [userSignUp, { loading: registerLoading, data }] = useRegisterMutation({ errorPolicy: 'all' });
+  const [userSignUp, { error: registerError, loading: registerLoading, data }] = useRegisterMutation({ errorPolicy: 'all' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,6 +41,9 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
       <Divider clearing hidden />
       <Grid.Row>
         <Grid.Column>
+          <Message error warning compact hidden={!registerError}>
+            <Message.Header>{registerError?.message}</Message.Header>
+          </Message>
           <Header color='teal' as='h1' content='Register' subheader='successfull registration will push you to login page' />
           <Divider clearing />
         </Grid.Column>
