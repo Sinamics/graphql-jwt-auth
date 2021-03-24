@@ -22,7 +22,7 @@ export const LayoutAuthenticated: React.ElementType<LayoutProps> = (props): JSX.
 
 export const LayoutPublic: React.ElementType<LayoutProps> = (props): JSX.Element => {
   // Load Me object with network-only if user has a valid refreshToken / cookie in browser.
-  const { loading, data: { me = null } = {} }: any = useMeQuery({ fetchPolicy: 'network-only' });
+  const { loading, data: { me = null } = {} } = useMeQuery({ fetchPolicy: 'network-only' });
   if (loading) return <Spinner />;
 
   // If a valid refresh token is present, the ME oject is available, hence rute the user directly to privateroute.
