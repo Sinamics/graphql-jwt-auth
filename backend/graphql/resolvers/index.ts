@@ -8,6 +8,7 @@ import bcrypt from 'bcryptjs';
 import { createAccessToken, createRefreshToken, sendRefreshToken } from '../../jwt/validate.token';
 import validator from 'validator';
 import { mediumPassword } from '../../_helpers/name-validation';
+import { FieldError } from '../response-types/field-error';
 
 export interface MyContext {
   req: Request;
@@ -35,7 +36,7 @@ export class authResolvers {
 
   @Mutation(() => UserResponse)
   async login(@Ctx() ctx: any, @Arg('loginData') { username, password }: UserInput): Promise<UserResponse | AuthenticationError> {
-    const errors = [];
+    const errors: FieldError[] = [];
 
     try {
       if (validator.isEmpty(username)) {
@@ -68,7 +69,7 @@ export class authResolvers {
 
   @Mutation(() => UserResponse)
   async register(@Arg('registerData') { username, password }: UserInput): Promise<any> {
-    const errors = [];
+    const errors: FieldError[] = [];
     try {
       // username validation
       if (validator.isEmpty(username)) {
