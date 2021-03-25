@@ -14,12 +14,12 @@ const App: React.FC = (): JSX.Element => {
     fetch(`${config.apiUrl}/refresh_token`, {
       method: 'POST',
       credentials: 'include',
-    }).then(async (x) => {
-      const { accessToken } = await x.json();
-
-      setAccessToken(accessToken);
-      setLoading(false);
-    });
+    })
+      .then(async (x) => {
+        const { accessToken } = await x.json();
+        setAccessToken(accessToken);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <div></div>;

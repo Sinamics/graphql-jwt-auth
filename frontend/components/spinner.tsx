@@ -1,13 +1,11 @@
 import React from 'react';
-import { Dimmer, Loader } from 'semantic-ui-react';
 
 const Spinner = () => {
   return (
-    <Dimmer page inverted active>
-      <Loader size='large' active inline='centered'>
-        Loading
-      </Loader>
-    </Dimmer>
+    <div className='flex items-center justify-center h-screen'>
+      <svg className='animate-spin h-5 w-5 mr-3 ...' viewBox='0 0 24 24'></svg>
+      Processing
+    </div>
   );
 };
 
