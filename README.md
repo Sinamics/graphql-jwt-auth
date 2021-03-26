@@ -1,6 +1,6 @@
 # GraphQl Mongoose Jwt Typeorm Tailwind
 
-See Semantic-ui React version (https://github.com/Sinamics/graphql-jwt-auth/tree/main)
+See **Semantic-ui React** version (https://github.com/Sinamics/graphql-jwt-auth/tree/main)
 
 ## Description
 
