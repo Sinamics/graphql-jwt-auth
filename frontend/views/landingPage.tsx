@@ -7,16 +7,20 @@ const LandingPage = (): JSX.Element => {
       <div className='row-auto text-center w-full'>
         <p className='text-5xl py-5'>GraphQl-Jwt-Auth-Tailwind</p>
       </div>
-      <div className='container mx-auto'>
+      <div className='grid grid-cols-1'>
         <div className='flex justify-center'>
           <div className='pr-10'>
             <Link to='login'>
-              <button className='p-3 bg-green-400 hover:bg-green-600 rounded-lg text-lg focus:outline-none shadow-lg'>Login</button>
+              <button className='p-3 bg-green-400 hover:bg-green-700 rounded-lg text-lg focus:outline-none shadow-lg transition ease-out duration-500'>
+                Login
+              </button>
             </Link>
           </div>
           <div className=''>
             <Link to='register'>
-              <button className='p-3 bg-green-400 hover:bg-green-600 rounded-lg text-lg focus:outline-none shadow-lg'>Register</button>
+              <button className='p-3 bg-green-400 hover:bg-green-700 rounded-lg text-lg focus:outline-none shadow-lg transition ease-out duration-500'>
+                Register
+              </button>
             </Link>
           </div>
         </div>

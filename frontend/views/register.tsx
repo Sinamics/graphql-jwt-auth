@@ -106,7 +106,7 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
             <button
               disabled={registerLoading}
               type='submit'
-              className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+              className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-out duration-500'
             >
               <span className='absolute left-0 inset-y-0 flex items-center pl-3'>
                 <svg
