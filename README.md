@@ -1,4 +1,4 @@
-# GraphQl Mongoose Jwt Typeorm Boilerplate
+# GraphQl Mongoose Jwt Typeorm Semantic-Ui
 
 See **Tailwind-css** version (https://github.com/Sinamics/graphql-jwt-auth/tree/tailwind)
 
