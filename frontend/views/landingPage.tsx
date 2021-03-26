@@ -5,7 +5,7 @@ const LandingPage = (): JSX.Element => {
   return (
     <div className='py-20 h-screen bg-gray-100 px-4 sm:px-6 lg:px-8'>
       <div className='row-auto text-center w-full'>
-        <p className='text-5xl py-5'>GraphQl-jwt-auth Boilerplate</p>
+        <p className='text-5xl py-5'>GraphQl-Jwt-Auth-Tailwind</p>
       </div>
       <div className='container mx-auto'>
         <div className='flex justify-center'>
