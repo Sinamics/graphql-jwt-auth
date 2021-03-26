@@ -40,19 +40,21 @@ export class authResolvers {
 
     try {
       if (validator.isEmpty(username)) {
-        throw errors.push({ field: 'username', message: 'Must not be empty.' });
+        errors.push({ field: ['username'], message: 'Must not be empty.' });
       }
 
       if (validator.isEmpty(password)) {
-        throw errors.push({ field: 'password', message: 'Must not be empty.' });
+        errors.push({ field: ['password'], message: 'Must not be empty.' });
       }
+
+      if (errors.length) throw errors;
 
       const user = await User.findOne({ username });
 
-      if (!user) throw errors.push({ field: 'Account', message: 'User does not exsist!' });
+      if (!user) throw errors.push({ field: ['account'], message: 'User does not exsist!' });
 
       const valid = bcrypt.compareSync(password, user.hash);
-      if (!valid) throw errors.push({ field: 'Account', message: 'Username or Password is wrong!' });
+      if (!valid) throw errors.push({ field: ['account'], message: 'Username or Password is wrong!' });
 
       // Send refresh token as cookie header
       sendRefreshToken(ctx?.res, createRefreshToken(user));
@@ -73,23 +75,29 @@ export class authResolvers {
     try {
       // username validation
       if (validator.isEmpty(username)) {
-        throw errors.push({ field: 'username', message: 'Must not be empty.' });
-      } else if (!validator.isLength(username, { max: 30 })) {
-        throw errors.push({ field: 'username', message: 'Must be at a maximum 30 characters long.' });
-      } else if (!validator.isLength(username, { min: 3 })) {
-        throw errors.push({ field: 'username', message: 'Must be at least 3 characters long.' });
+        errors.push({ field: ['username'], message: 'Must not be empty.' });
+      }
+      if (!validator.isLength(username, { max: 30 })) {
+        errors.push({ field: ['username'], message: 'Must be at a maximum 30 characters long.' });
+      }
+      if (!validator.isLength(username, { min: 3 })) {
+        errors.push({ field: ['username'], message: 'Must be at least 3 characters long.' });
       }
 
       // password validation
       if (validator.isEmpty(password)) {
-        throw errors.push({ field: 'password', message: 'The password must not be empty.' });
-      } else if (!mediumPassword.test(password)) {
-        throw errors.push({ field: 'password', message: 'Must include 6 char, with upper and lowercase' });
+        errors.push({ field: ['password'], message: 'The password must not be empty.' });
+      }
+
+      if (!mediumPassword.test(password)) {
+        errors.push({ field: ['password'], message: 'Must include 6 char, with upper and lowercase' });
       }
 
       if (await User.findOne({ username })) {
-        throw errors.push({ field: 'Account', message: `username "${username}" already taken` });
+        errors.push({ field: ['account'], message: `username "${username}" already taken` });
       }
+
+      if (errors.length) throw errors;
 
       const user = await User.create({ username });
       user.hash = bcrypt.hashSync(password, 10);

@@ -41,7 +41,7 @@ export type User = {
 
 export type FieldError = {
   __typename?: 'FieldError';
-  field: Scalars['String'];
+  field: Array<Scalars['String']>;
   message: Scalars['String'];
 };
 

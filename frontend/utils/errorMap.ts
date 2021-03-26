@@ -1,11 +1,12 @@
 import { FieldError } from 'frontend/graphql/generated/dist';
 
-export const toErrorMap = (errors: FieldError[]) => {
-  const errorMap: string[] = [];
+export const toErrorMap = (errors: FieldError[], field: string) => {
+  if (!errors) return false;
 
-  errors.forEach(({ field, message }) => {
-    errorMap.push(`Field ${field} : ${message}`);
-  });
+  const index = errors.findIndex((i) => i.field.includes(field));
+  if (index > -1) {
+    return errors[index].message;
+  }
 
-  return errorMap;
+  return false;
 };

@@ -103,6 +103,11 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "babelMacros": {
+    "twin": {
+      "config": "tailwind.config.js"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -116,15 +121,20 @@
     ]
   },
   "devDependencies": {
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
     "@graphql-codegen/cli": "1.18.0",
     "@graphql-codegen/typescript": "1.17.11",
     "@graphql-codegen/typescript-operations": "1.17.8",
     "@graphql-codegen/typescript-react-apollo": "2.0.7",
     "@types/bcryptjs": "^2.4.2",
+    "@types/classnames": "^2.2.11",
     "@types/cookie-parser": "^1.4.2",
     "@types/graphql-iso-date": "^3.4.0",
     "@types/mongoose": "^5.10.4",
     "autoprefixer": "^10.2.5",
+    "classnames": "^2.2.6",
     "css-loader": "^3.4.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
@@ -133,7 +143,8 @@
     "prettier": "2.1.2",
     "sass-loader": "^8.0.2",
     "style-loader": "^0.23.1",
-    "tailwindcss": "^2.0.4"
+    "tailwindcss": "^2.0.4",
+    "twin.macro": "^2.3.1"
   },
   "jest": {
     "roots": [

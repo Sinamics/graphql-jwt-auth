@@ -257,11 +257,6 @@ module.exports = {
       10: '10',
       11: '11',
       12: '12',
-      13: '13',
-      14: '14',
-      15: '15',
-      16: '16',
-      17: '17',
     },
     gridColumnStart: {
       auto: 'auto',
@@ -277,11 +272,6 @@ module.exports = {
       10: '10',
       11: '11',
       12: '12',
-      13: '13',
-      14: '14',
-      15: '15',
-      16: '16',
-      17: '17',
     },
     gridRow: {
       auto: 'auto',
@@ -290,7 +280,6 @@ module.exports = {
       'span-3': 'span 3 / span 3',
       'span-4': 'span 4 / span 4',
       'span-5': 'span 5 / span 5',
-      'span-6': 'span 6 / span 6',
       'span-full': '1 / -1',
     },
     gridRowStart: {

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { setAccessToken } from '../utils/accessToken';
 import { useLoginMutation } from '../graphql/generated/dist';
-// import { toErrorMap } from 'frontend/utils/errorMap';
+import classNames from 'classnames';
+import { toErrorMap } from 'frontend/utils/errorMap';
 
 interface StateProps {
   username: string;
@@ -36,24 +37,37 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
       })
       .catch((err) => console.error(err));
   };
+
+  const { errors = [] }: any = loginResponse?.login || [];
+
+  const usernameErrorClass = classNames({
+    'border-red-300': toErrorMap(errors, 'username'),
+  });
+  const passwordErrorClass = classNames({
+    'border-red-300': toErrorMap(errors, 'password'),
+  });
+
   return (
     <>
-      <div className='grid grid-cols-12 gap-1'>
-        <div className='col-start-1 border-indigo-700 border col-span-1 ...'>1</div>
-      </div>
-      <div className='min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
-        <div className='max-w-md w-full space-y-8'>
+      <div className='flex flex-col items-center py-20 h-screen bg-gray-100 px-4 sm:px-6 lg:px-8  '>
+        <div className='max-w-7xl w-full'>
           <div>
-            <img className='mx-auto h-12 w-auto' src='https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg' alt='Workflow' />
-            <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>Sign in to your account</h2>
+            <img
+              className='mx-auto h-12 w-auto'
+              src='https://www.flaticon.com/svg/vstatic/svg/564/564419.svg?token=exp=1616753275~hmac=ac3a73006f3efabe1da0450cb28ed209'
+              alt='Homepage Logo'
+            />
+            <h2 className={`mt-6 text-center xl:text-6xl sm:text-3xl font-extrabold text-gray-600`}>Sign in to your account</h2>
           </div>
-          <div className='max-w-md '>
-            {loginResponse?.login.errors?.length && <p className='text-red-500 '>{loginResponse.login.errors[0].message}</p>}
-          </div>
-          <form className='mt-8 space-y-6' onSubmit={handleSubmit}>
+        </div>
+        <div className='max-w-md w-full bg-white p-5 shadow-xl my-10 border rounded-md'>
+          <form className='space-y-6' onSubmit={handleSubmit}>
             <input type='hidden' name='remember' value='true' />
-            <div className='rounded-md shadow-sm -space-y-px'>
-              <div>
+            <div className='text-center'>
+              <label className='max-w-md text-md ml-1 text-red-500'>{toErrorMap(errors, 'account')}</label>
+            </div>
+            <div className='rounded-md shadow-sm'>
+              <div className='my-5'>
                 <label htmlFor='email-address' className='sr-only'>
                   Username
                 </label>
@@ -63,8 +77,9 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
                   name='username'
                   type='text'
                   placeholder='Username'
-                  className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-200 focus:z-10 sm:text-sm'
+                  className={` ${usernameErrorClass} appearance-none rounded-md sm:text-sm lg:text-lg relative block w-full p-3 border border-gray-300 placeholder-gray-500 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-200 focus:z-10 `}
                 />
+                <label className='max-w-md text-center text-sm ml-1 text-red-500'>{toErrorMap(errors, 'username')}</label>
               </div>
               <div>
                 <label htmlFor='password' className='sr-only'>
@@ -75,30 +90,29 @@ const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
                   name='password'
                   type='password'
                   placeholder='Password'
-                  className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-200 focus:z-10 sm:text-sm'
+                  className={`${passwordErrorClass} appearance-none rounded-md relative lg:text-lg block w-full p-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-200 focus:z-10 sm:text-sm`}
                 />
+                <label className='max-w-md text-center text-sm ml-1 text-red-500'>{toErrorMap(errors, 'password')}</label>
               </div>
             </div>
 
             <div className='flex items-center justify-end'>
-              <div className='text-sm'>
-                <Link to='register'>
-                  <label color='teal' className='text-right'>
-                    Already have an account?
-                  </label>
-                </Link>
-              </div>
+              <Link to='register'>
+                <div className='text-sm'>
+                  <label className='text-right text-blue-400 cursor-pointer '>Dont have an account?</label>
+                </div>
+              </Link>
             </div>
 
             <div>
               <button
                 disabled={loginLoading}
                 type='submit'
-                className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
               >
                 <span className='absolute left-0 inset-y-0 flex items-center pl-3'>
                   <svg
-                    className='h-5 w-5 text-indigo-500 group-hover:text-indigo-400'
+                    className='h-5 w-5 text-green-500 group-hover:text-green-400'
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 20 20'
                     fill='currentColor'
