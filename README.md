@@ -13,7 +13,7 @@
 
 ## Features
 
-- [x] Semantic-Ui React (https://react.semantic-ui.com/)
+- [x] Tailwindcss (https://tailwindcss.com/docs)
 - [x] React Lazy Loading with Suspense
 - [x] Express Server (port 4000)
 - [x] type-Graphql Entry Point (/graphql)
@@ -48,8 +48,8 @@ This project uses graphql-codegen, and if you make any changes to the .graphql f
 
 ## Login / Register Page
 
-![privatePage](https://i.ibb.co/XLBP9mp/register.jpg)
+![privatePage](https://i.ibb.co/wpmsCfK/login.jpg)
 
 ## Simple privatePage for testing role decorators
 
-![privatePage](https://i.ibb.co/8XNV0R7/privatepage.jpg)
+![privatePage](https://i.ibb.co/djmGyGB/privatepage.jpg)
