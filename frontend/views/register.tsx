@@ -50,11 +50,7 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
     <div className='flex flex-col items-center py-20 h-screen bg-gray-100 px-4 sm:px-6 lg:px-8  '>
       <div className='max-w-7xl w-full'>
         <div>
-          <img
-            className='mx-auto h-12 w-auto'
-            src='https://www.flaticon.com/svg/vstatic/svg/564/564419.svg?token=exp=1616753275~hmac=ac3a73006f3efabe1da0450cb28ed209'
-            alt='Homepage Logo'
-          />
+          <img className='mx-auto h-20 w-auto' src='http://pngimg.com/uploads/github/github_PNG40.png' alt='Homepage Logo' />
           <h2 className={`mt-6 text-center xl:text-6xl sm:text-3xl font-extrabold text-gray-600`}>Signup for a new account</h2>
         </div>
       </div>

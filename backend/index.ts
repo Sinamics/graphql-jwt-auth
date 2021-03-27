@@ -28,6 +28,7 @@ class Server {
   private app: express.Application;
   private http: http.Server;
   private port: Number;
+  private appolloServer: any;
 
   constructor() {
     dotenv.config();
@@ -36,6 +37,7 @@ class Server {
     this.app = this.express();
     this.http = http.createServer(this.app);
     this.port = Number(process.env.SERVER_PORT);
+    this.appolloServer = '';
 
     this.start();
   }
@@ -88,11 +90,19 @@ class Server {
     SchemaDirectiveVisitor.visitSchemaDirectives(schema, {
       hasRole: AuthDirective,
     });
-    const server = new ApolloServer({
+    this.appolloServer = new ApolloServer({
       schema,
       context: ({ req, res }: { req: Request; res: Response }) => ({ req, res }),
       schemaDirectives: {
         hasRole: AuthDirective,
+      },
+      subscriptions: {
+        path: '/subscription',
+        // onConnect: async (connectionParams, webSocket, context) => {
+        //   console.log(webSocket);
+        //   console.log(context.request);
+        //   console.log(connectionParams);
+        // },
       },
       playground: {
         settings: {
@@ -103,7 +113,7 @@ class Server {
 
     const { app } = this;
 
-    server.applyMiddleware({ app, cors: false });
+    this.appolloServer.applyMiddleware({ app, cors: false });
 
     return true;
   }
@@ -118,7 +128,10 @@ class Server {
   /* Including app Routes ends */
   private async serverListen(): Promise<boolean> {
     // Start your app.
-    this.http.listen(this.port, () => {
+    const httpServer = http.createServer(this.app);
+    this.appolloServer.installSubscriptionHandlers(httpServer);
+
+    httpServer.listen(this.port, () => {
       console.log('Backend server listen at: ' + this.port);
     });
 
