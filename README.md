@@ -32,7 +32,7 @@ See **Semantic-ui React** version (https://github.com/Sinamics/graphql-jwt-auth/
 
 1. Install mongodb on your computer
 2. Install `npm i typescript concurrently ts-node-dev -g`
-3. Clone package: `git clone https://github.com/Sinamics/graphql-jwt-auth.git`
+3. Clone package: `git clone https://github.com/Sinamics/graphql-jwt-auth.git --branch tailwind`
 4. Install dependencies `npm i`
 5. Create `.env` file with the following variables on the project root folder:
 
