@@ -20,6 +20,7 @@ See **Semantic-ui React** version (https://github.com/Sinamics/graphql-jwt-auth/
 - [x] Express Server (port 4000)
 - [x] type-Graphql Entry Point (/graphql)
 - [x] Graphql Playground Page (http://localhost:4000/graphql)
+- [x] Graphql Subscription
 - [x] Typeorm Settings For MongoDB
 - [x] Typeorm Decorators for hasRole (@hasRole(roles: [user, superuser]))
 - [x] Basic User Entity (backend/graphql/entity/Users.ts)
