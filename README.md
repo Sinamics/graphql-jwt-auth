@@ -25,8 +25,8 @@ See **Semantic-ui React** version (https://github.com/Sinamics/graphql-jwt-auth/
 - [x] Typeorm Decorators for hasRole (@hasRole(roles: [user, superuser]))
 - [x] Basic User Entity (backend/graphql/entity/Users.ts)
 - [x] JasonWebToken (JWT) accessToken / refreshToken cookie for authorization.
-- [x] username Sign Up
-- [x] username Sign In
+- [x] username Sign Up with graphql authorization error display.
+- [x] username Sign In with graphql authorization error display
 
 ## Usage
 
