@@ -1,6 +1,6 @@
 # GraphQl Mongoose Jwt Typeorm Semantic-Ui
 
-See **Tailwind-css** version (https://github.com/Sinamics/graphql-jwt-auth/tree/tailwind)
+See **Tailwind-css** version (https://github.com/Sinamics/typegraphql-jwt-typeorm-auth/tree/tailwind)
 
 ## Description
 
@@ -31,7 +31,7 @@ See **Tailwind-css** version (https://github.com/Sinamics/graphql-jwt-auth/tree/
 
 1. Install mongodb on your computer
 2. Install `npm i typescript concurrently ts-node-dev -g`
-3. Clone package: `git clone https://github.com/Sinamics/graphql-jwt-auth.git`
+3. Clone package: `git clone https://github.com/Sinamics/typegraphql-jwt-typeorm-auth`
 4. Install dependencies `npm i`
 5. Create `.env` file with the following variables in the project root folder:
 
