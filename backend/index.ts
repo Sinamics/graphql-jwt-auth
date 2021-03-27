@@ -37,7 +37,7 @@ class Server {
     this.app = this.express();
     this.http = http.createServer(this.app);
     this.port = Number(process.env.SERVER_PORT);
-    this.appolloServer = '';
+    this.appolloServer = ApolloServer;
 
     this.start();
   }
@@ -129,6 +129,8 @@ class Server {
   private async serverListen(): Promise<boolean> {
     // Start your app.
     const httpServer = http.createServer(this.app);
+
+    // Include installSubscriptionHandlers for websocket / graphql subscriptions
     this.appolloServer.installSubscriptionHandlers(httpServer);
 
     httpServer.listen(this.port, () => {
