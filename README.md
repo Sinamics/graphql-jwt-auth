@@ -31,8 +31,9 @@ See **Tailwind-css** version (https://github.com/Sinamics/graphql-jwt-auth/tree/
 
 1. Install mongodb on your computer
 2. Install `npm i typescript concurrently ts-node-dev -g`
-3. Install dependencies `npm i`
-4. Create `.env` file with the following variables on the project root folder:
+3. Clone package: `git clone https://github.com/Sinamics/graphql-jwt-auth.git`
+4. Install dependencies `npm i`
+5. Create `.env` file with the following variables on the project root folder:
 
 ```
 SERVER_PORT=4000
